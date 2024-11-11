@@ -102,10 +102,10 @@ function createParticleSystems() {
     });
 
     // Increased vertical range for stars (-20 to 20 instead of -20 to 20)
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 300; i++) {
         const star = new THREE.Mesh(starGeometry, starMaterial);
         star.position.set(
-            (Math.random() - 0.5) * 30,
+            (Math.random() - 0.5) * 50,
             (Math.random() - 0.5) * 40, // Increased vertical range
             -5
         );
@@ -533,8 +533,8 @@ function animate() {
             star.position.x -= star.userData.speed;
             
             // Reset star position when it goes out of bounds
-            if (star.position.x < -15) {
-                star.position.x = 15;
+            if (star.position.x < -25) {
+                star.position.x = 25;
                 star.position.y = (Math.random() - 0.5) * 40; // Match the creation range
             }
 
