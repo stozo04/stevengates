@@ -1,7 +1,7 @@
 // Import Three.js components
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -9,14 +9,37 @@ document.body.appendChild(renderer.domElement);
 
 // Initial mode settings
 let darkMode = true;
-renderer.setClearColor(0x000000); // Start with a black background
+renderer.setClearColor(0x000000);
 
 // Adjust camera position
 camera.position.z = 10;
 
-// Create both particle systems but hide one initially
+// Generate distinct colors using golden ratio
+function generateDistinctColors(count) {
+    const colors = [];
+    const goldenRatio = 0.618033988749895;
+    let hue = Math.random();
+
+    for (let i = 0; i < count; i++) {
+        hue = (hue + goldenRatio) % 1;
+        colors.push({
+            hue,
+            saturation: 70,
+            lightness: 65
+        });
+    }
+
+    for (let i = colors.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [colors[i], colors[j]] = [colors[j], colors[i]];
+    }
+
+    return colors;
+}
+
+// Create particle systems
 function createParticleSystems() {
-    // Stars for dark mode (keeping the same)
+    // Stars for dark mode
     const stars = new THREE.Group();
     const starGeometry = new THREE.SphereGeometry(0.03, 8, 8);
     const starMaterial = new THREE.MeshBasicMaterial({
@@ -38,24 +61,14 @@ function createParticleSystems() {
         stars.add(star);
     }
 
-    // Enhanced confetti for light mode
+    // Confetti for light mode
     const confetti = new THREE.Group();
     const confettiColors = [
-        0xFF69B4, // Pink
-        0x87CEEB, // Sky Blue
-        0x98FB98, // Light Green
-        0xDDA0DD, // Plum
-        0xF0E68C, // Khaki
-        0xFF8C00, // Dark Orange
-        0x00FA9A, // Medium Spring Green
-        0xFF1493, // Deep Pink
-        0x00BFFF, // Deep Sky Blue
-        0xFFDAB9  // Peach
+        0xFF69B4, 0x87CEEB, 0x98FB98, 0xDDA0DD, 0xF0E68C,
+        0xFF8C00, 0x00FA9A, 0xFF1493, 0x00BFFF, 0xFFDAB9
     ];
     
-    const confettiCount = 400;
-    
-    for (let i = 0; i < confettiCount; i++) {
+    for (let i = 0; i < 400; i++) {
         let confettiGeometry;
         const shapeType = Math.random();
         
@@ -75,11 +88,9 @@ function createParticleSystems() {
         });
 
         const confettiPiece = new THREE.Mesh(confettiGeometry, confettiMaterial);
-        
-        // Initially distribute confetti across the entire visible area
         confettiPiece.position.set(
-            (Math.random() - 0.5) * 40,  // Full width
-            (Math.random() - 0.5) * 30,  // Full height
+            (Math.random() - 0.5) * 40,
+            (Math.random() - 0.5) * 30,
             -5 + (Math.random() - 0.5) * 2
         );
         
@@ -102,16 +113,14 @@ function createParticleSystems() {
         confetti.add(confettiPiece);
     }
 
-    // Initially show stars (dark mode) and hide confetti
     confetti.visible = false;
-    
     scene.add(stars);
     scene.add(confetti);
     
     return { stars, confetti };
 }
 
-// THEN Create particles immediately
+// Create particles
 const particles = createParticleSystems();
 
 // Lighting setup
@@ -125,7 +134,7 @@ directionalLight.shadow.mapSize.width = 1024;
 directionalLight.shadow.mapSize.height = 1024;
 scene.add(directionalLight);
 
-// Create the ground plane to receive shadows
+// Create ground plane
 const planeGeometry = new THREE.PlaneGeometry(10, 10);
 const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.3 });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -134,51 +143,66 @@ plane.position.y = -1.5;
 plane.receiveShadow = true;
 scene.add(plane);
 
-// Titles for each cube position in the grid
-const titles = [
-    "Projects", "Skills", "Portfolio",
-    "Blog", "About Me", "Testimonials",
-    "Contact", "Resume", "Fun Facts"
-];
-
-// Add this helper function before creating the cubes
-function generateDistinctColors(count) {
-    const colors = [];
-    const goldenRatio = 0.618033988749895;
-    let hue = Math.random();
-
-    // Generate distinct colors using the golden ratio method
-    for (let i = 0; i < count; i++) {
-        hue = (hue + goldenRatio) % 1;
-        colors.push({
-            hue,
-            saturation: 70,
-            lightness: 65
-        });
+// Cube titles and content configuration
+const cubeContent = {
+    "Projects": {
+        title: "My Projects",
+        content: "Here are some of my featured projects...",
+        link: "#projects"
+    },
+    "Skills": {
+        title: "Technical Skills",
+        content: "My technical expertise includes...",
+        link: "#skills"
+    },
+    "Portfolio": {
+        title: "Portfolio",
+        content: "Check out my work...",
+        link: "#portfolio"
+    },
+    "Blog": {
+        title: "Blog Posts",
+        content: "Latest thoughts and tutorials...",
+        link: "#blog"
+    },
+    "About Me": {
+        title: "About Me",
+        content: "Let me introduce myself...",
+        link: "#about"
+    },
+    "Testimonials": {
+        title: "Testimonials",
+        content: "What others say about my work...",
+        link: "#testimonials"
+    },
+    "Contact": {
+        title: "Get in Touch",
+        content: "Let's connect...",
+        link: "#contact"
+    },
+    "Resume": {
+        title: "My Resume",
+        content: "Professional experience and education...",
+        link: "#resume"
+    },
+    "Fun Facts": {
+        title: "Fun Facts",
+        content: "Some interesting things about me...",
+        link: "#facts"
     }
+};
 
-    // Shuffle the colors
-    for (let i = colors.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [colors[i], colors[j]] = [colors[j], colors[i]];
-    }
-
-    return colors;
-}
-
-// Helper function to create a texture with text, adjusting font size based on text length
+// Create texture with distinct colors
 function createTextTexture(text, colorIndex, distinctColors) {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
     const context = canvas.getContext('2d');
 
-    // Use the pre-generated distinct color
     const color = distinctColors[colorIndex];
     context.fillStyle = `hsl(${color.hue * 360}, ${color.saturation}%, ${color.lightness}%)`;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Rest of your text rendering code remains the same
     let fontSize = 48;
     if (text.length > 7) fontSize = 40;
     context.font = `bold ${fontSize}px Arial`;
@@ -193,61 +217,71 @@ function createTextTexture(text, colorIndex, distinctColors) {
     return new THREE.CanvasTexture(canvas);
 }
 
+// Create modal for cube content
+function createModal(content) {
+    const modal = document.createElement('div');
+    modal.className = 'portfolio-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>${content.title}</h2>
+            <div class="modal-body">${content.content}</div>
+            <a href="${content.link}" class="modal-link">Learn More</a>
+            <button class="close-modal">Close</button>
+        </div>
+    `;
 
+    modal.querySelector('.close-modal').onclick = () => {
+        modal.style.opacity = '0';
+        setTimeout(() => modal.remove(), 300);
+    };
 
-// Updated cube size and spacing
+    document.body.appendChild(modal);
+    setTimeout(() => modal.style.opacity = '1', 10);
+}
+
+// Create cubes
 const cubeSize = 2;
 const cubeSpacing = 2.5;
 const cubes = [];
-// Generate distinct colors first
-const distinctColors = generateDistinctColors(titles.length);
+const distinctColors = generateDistinctColors(9); // 9 cubes
 
-// Create the grid of cubes and assign titles
 let titleIndex = 0;
 for (let x = -1; x <= 1; x++) {
     for (let y = -1; y <= 1; y++) {
         const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+        const title = Object.keys(cubeContent)[titleIndex];
+        const textTexture = createTextTexture(title, titleIndex, distinctColors);
 
-        // Create a texture with the corresponding title
-        const textTexture = createTextTexture(titles[titleIndex], titleIndex, distinctColors);
-        titleIndex++;
-
-        // Apply the texture to the cube with enhanced material properties
         const material = new THREE.MeshStandardMaterial({
             map: textTexture,
-            color: 0xffffff, // Use white as base color to not tint the texture
+            color: 0xffffff,
             roughness: 0.5,
             metalness: 0.1,
-            emissive: new THREE.Color(0x222222) // Add slight emission for better visibility
+            emissive: new THREE.Color(0x222222)
         });
 
         const cube = new THREE.Mesh(geometry, material);
         cube.position.set(x * cubeSpacing, y * cubeSpacing, 0);
         cube.castShadow = true;
         cube.receiveShadow = true;
+        cube.userData = {
+            title: title,
+            content: cubeContent[title],
+            originalPosition: cube.position.clone(),
+            originalRotation: cube.rotation.clone()
+        };
+        
         cubes.push(cube);
         scene.add(cube);
+        titleIndex++;
     }
 }
 
-// Initialize colors immediately after page load
-window.addEventListener('DOMContentLoaded', () => {
-    // Force one toggle cycle to ensure proper color initialization
-    darkMode = false; // Temporarily set to false
-    toggleMode();     // Toggle to dark mode with proper colors
-});
-
-// Rotation flag
-let rotatingCube = null;
-
-// Raycaster for detecting clicks
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
+// Animation loop
 function animate() {
     requestAnimationFrame(animate);
 
-    // Animate stars (keeping the same)
+    // Animate stars
     if (particles.stars.visible) {
         particles.stars.children.forEach((star) => {
             star.position.x -= star.userData.speed;
@@ -258,7 +292,7 @@ function animate() {
         });
     }
 
-    // Natural confetti animation
+    // Animate confetti
     if (particles.confetti.visible) {
         particles.confetti.children.forEach((confetti) => {
             confetti.position.x -= confetti.userData.horizontalSpeed;
@@ -268,12 +302,10 @@ function animate() {
             confetti.rotation.y += confetti.userData.rotationSpeed.y;
             confetti.rotation.z += confetti.userData.rotationSpeed.z;
             
-            // Reset position when out of view, maintain continuous flow
             if (confetti.position.y < -15) {
                 confetti.position.x = (Math.random() - 0.5) * 40;
-                confetti.position.y = 15;  // Reset to just above the visible area
+                confetti.position.y = 15;
                 
-                // Randomize rotation speeds when resetting
                 confetti.userData.rotationSpeed.x = (Math.random() - 0.5) * 0.05;
                 confetti.userData.rotationSpeed.y = (Math.random() - 0.5) * 0.05;
                 confetti.userData.rotationSpeed.z = (Math.random() - 0.5) * 0.05;
@@ -281,37 +313,55 @@ function animate() {
         });
     }
 
-    // Your existing cube rotation code
+    // Cube interactions
     if (rotatingCube) {
         rotatingCube.rotation.x += 0.05;
         rotatingCube.rotation.y += 0.05;
     }
 
+    // Subtle camera movement
+    const time = Date.now() * 0.0005;
+    camera.position.x = Math.sin(time) * 0.5;
+    camera.position.y = Math.cos(time) * 0.5;
+    camera.lookAt(scene.position);
+
     renderer.render(scene, camera);
 }
 
-// Handle mouse move events
+// Mouse interaction
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let rotatingCube = null;
+
 function onMouseMove(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
-
-    // Check for intersections with cubes
     const intersects = raycaster.intersectObjects(cubes);
+    
     if (intersects.length > 0) {
-        // If the currently intersected cube is different from the rotatingCube, set it to rotate
-        if (rotatingCube !== intersects[0].object) {
-            rotatingCube = intersects[0].object;
+        const intersectedCube = intersects[0].object;
+        if (rotatingCube !== intersectedCube) {
+            rotatingCube = intersectedCube;
         }
     } else {
-        // No cubes are intersected, stop rotating
         rotatingCube = null;
     }
 }
 
+// Click handler
+function onClick(event) {
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(cubes);
+    
+    if (intersects.length > 0) {
+        const cube = intersects[0].object;
+        createModal(cube.userData.content);
+    }
+}
 
-// Dark/Light mode toggle function
+// Toggle dark/light mode
 function toggleMode() {
     darkMode = !darkMode;
 
@@ -319,22 +369,11 @@ function toggleMode() {
         renderer.setClearColor(0x000000);
         ambientLight.intensity = 0.4;
         directionalLight.intensity = 0.8;
-
-        // Show stars, hide confetti
         particles.stars.visible = true;
         particles.confetti.visible = false;
-
-        // Your existing dark mode code...
-        cubes.forEach(cube => {
-            if (!cube.material.map) {
-                const vibrantColor = Math.random() * 0x7fffff + 0x808080;
-                cube.material.color.setHex(vibrantColor);
-            }
-        });
-
+        
         planeMaterial.opacity = 0.2;
         planeMaterial.color = new THREE.Color(0x333366);
-
         document.body.style.backgroundColor = '#000';
         toggleButton.style.backgroundColor = '#fff';
         toggleButton.style.color = '#000';
@@ -343,22 +382,11 @@ function toggleMode() {
         renderer.setClearColor(0xffffff);
         ambientLight.intensity = 0.6;
         directionalLight.intensity = 0.9;
-
-        // Hide stars, show confetti
         particles.stars.visible = false;
         particles.confetti.visible = true;
-
-        // Your existing light mode code...
-        cubes.forEach(cube => {
-            if (!cube.material.map) {
-                const darkColor = Math.random() * 0x444444 + 0x222222;
-                cube.material.color.setHex(darkColor);
-            }
-        });
-
+        
         planeMaterial.opacity = 0.3;
         planeMaterial.color = new THREE.Color(0x000000);
-
         document.body.style.backgroundColor = '#fff';
         toggleButton.style.backgroundColor = '#000';
         toggleButton.style.color = '#fff';
@@ -366,20 +394,215 @@ function toggleMode() {
     }
 }
 
-// Event listeners for clicks and window resize
+// Event listeners
+window.addEventListener('mousemove', onMouseMove);
+window.addEventListener('click', onClick);
 window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Button click event listener for toggling mode
-const toggleButton = document.getElementById('toggleButton');
-toggleButton.addEventListener('click', toggleMode);
+// Add modal styles
+const styles = document.createElement('style');
+styles.textContent = `
+    .portfolio-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .modal-content {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 15px;
+        max-width: 80%;
+        max-height: 80%;
+        overflow-y: auto;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .dark-mode .modal-content {
+        background: rgba(30, 30, 30, 0.95);
+        color: white;
+    }
 
-window.addEventListener('mousemove', onMouseMove);
-let hoveredCube = null;
+    .modal-content h2 {
+        margin-bottom: 1rem;
+        color: #333;
+        font-size: 1.8rem;
+    }
+
+    .dark-mode .modal-content h2 {
+        color: #fff;
+    }
+
+    .modal-body {
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+
+    .modal-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 1rem;
+        transition: background 0.3s ease;
+    }
+
+    .modal-link:hover {
+        background: #0056b3;
+    }
+
+    .close-modal {
+        padding: 0.5rem 1rem;
+        background: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .close-modal:hover {
+        background: #5a6268;
+    }
+
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        transition: opacity 0.5s ease;
+    }
+
+    .loading-text {
+        color: white;
+        font-size: 2rem;
+        letter-spacing: 0.2em;
+    }
+
+    #toggleButton {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    #toggleButton:hover {
+        transform: scale(1.05);
+    }
+`;
+document.head.appendChild(styles);
+
+// Create loading screen
+const loadingScreen = document.createElement('div');
+loadingScreen.className = 'loading-screen';
+loadingScreen.innerHTML = '<div class="loading-text">Loading...</div>';
+document.body.appendChild(loadingScreen);
+
+// Remove loading screen when everything is ready
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.remove();
+        }, 500);
+    }, 1000);
+});
+
+// Create mode toggle button if it doesn't exist
+if (!document.getElementById('toggleButton')) {
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggleButton';
+    toggleButton.textContent = 'Light Mode';
+    toggleButton.style.backgroundColor = '#fff';
+    toggleButton.style.color = '#000';
+    document.body.appendChild(toggleButton);
+    toggleButton.addEventListener('click', toggleMode);
+}
+
+// Initialize colors on page load
+window.addEventListener('DOMContentLoaded', () => {
+    darkMode = false;
+    toggleMode();
+});
 
 // Start the animation loop
 animate();
 
+// Optional: Add keyboard controls
+document.addEventListener('keydown', (event) => {
+    switch(event.key) {
+        case 'Escape':
+            const modal = document.querySelector('.portfolio-modal');
+            if (modal) modal.remove();
+            break;
+        case ' ':
+            toggleMode();
+            break;
+    }
+});
+
+// Optional: Add touch support for mobile
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+});
+
+document.addEventListener('touchmove', (event) => {
+    if (!touchStartX || !touchStartY) return;
+
+    const touchEndX = event.touches[0].clientX;
+    const touchEndY = event.touches[0].clientY;
+
+    const deltaX = touchStartX - touchEndX;
+    const deltaY = touchStartY - touchEndY;
+
+    // Convert touch to mouse position for raycaster
+    const touch = event.touches[0];
+    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+    // Update camera position based on touch movement
+    camera.position.x += deltaX * 0.01;
+    camera.position.y -= deltaY * 0.01;
+    camera.lookAt(scene.position);
+
+    touchStartX = touchEndX;
+    touchStartY = touchEndY;
+});
+
+document.addEventListener('touchend', () => {
+    touchStartX = 0;
+    touchStartY = 0;
+});
