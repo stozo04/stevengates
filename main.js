@@ -34,59 +34,83 @@ plane.position.y = -1.5;
 plane.receiveShadow = true;
 scene.add(plane);
 
-// Create a canvas texture with "About Me" text
-const canvas = document.createElement('canvas');
-canvas.width = 256;
-canvas.height = 256;
-const context = canvas.getContext('2d');
+// Titles for each cube position in the grid
+const titles = [
+    "Projects", "Skills", "Portfolio",
+    "Blog", "About Me", "Testimonials",
+    "Contact", "Resume", "Fun Facts"
+];
 
-// Draw text on the canvas
-context.fillStyle = 'white';
-context.fillRect(0, 0, canvas.width, canvas.height); // Background color
-context.font = '48px Arial';
-context.fillStyle = 'black';
-context.textAlign = 'center';
-context.textBaseline = 'middle';
-context.fillText('About Me', canvas.width / 2, canvas.height / 2);
+// Helper function to create a texture with text, adjusting font size based on text length
+function createTextTexture(text) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const context = canvas.getContext('2d');
 
-const textTexture = new THREE.CanvasTexture(canvas);
+    // Create a vibrant background color that will be visible in both light and dark modes
+    const hue = Math.random() * 360;
+    const saturation = 70; // Higher saturation for more vibrant colors
+    const lightness = 65;  // Balanced lightness that works in both modes
+    context.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Adjust font size based on text length
+    let fontSize = 48;
+    if (text.length > 7) fontSize = 40;
+    context.font = `bold ${fontSize}px Arial`; // Added bold for better visibility
+    context.fillStyle = 'black';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    
+    // Add a white text shadow for better contrast
+    context.shadowColor = 'white';
+    context.shadowBlur = 4;
+    context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    return new THREE.CanvasTexture(canvas);
+}
+
 
 // Updated cube size and spacing
-const cubeSize = 1.5; // Larger cube size
-const cubeSpacing = 2.0; // Spacing between cubes to maintain the same gap
+const cubeSize = 2;
+const cubeSpacing = 2.5;
 const cubes = [];
 
-// Create the grid of cubes with the center cube showing "About Me"
+// Create the grid of cubes and assign titles
+let titleIndex = 0;
 for (let x = -1; x <= 1; x++) {
     for (let y = -1; y <= 1; y++) {
         const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
-        // Check for the center cube (where "About Me" text should appear)
-        let material;
-        if (x === 0 && y === 0) {
-            // Apply text texture to the center cube
-            material = new THREE.MeshStandardMaterial({
-                map: textTexture,
-                roughness: 0.5,
-                metalness: 0.1
-            });
-        } else {
-            // Random color for other cubes
-            material = new THREE.MeshStandardMaterial({
-                color: Math.random() * 0xffffff,
-                roughness: 0.5,
-                metalness: 0.1
-            });
-        }
+        // Create a texture with the corresponding title
+        const textTexture = createTextTexture(titles[titleIndex]);
+        titleIndex++;
+
+        // Apply the texture to the cube with enhanced material properties
+        const material = new THREE.MeshStandardMaterial({
+            map: textTexture,
+            color: 0xffffff, // Use white as base color to not tint the texture
+            roughness: 0.5,
+            metalness: 0.1,
+            emissive: new THREE.Color(0x222222) // Add slight emission for better visibility
+        });
 
         const cube = new THREE.Mesh(geometry, material);
-        cube.position.set(x * cubeSpacing, y * cubeSpacing, 0); // Use cubeSpacing to maintain gap
+        cube.position.set(x * cubeSpacing, y * cubeSpacing, 0);
         cube.castShadow = true;
         cube.receiveShadow = true;
         cubes.push(cube);
         scene.add(cube);
     }
 }
+
+// Initialize colors immediately after page load
+window.addEventListener('DOMContentLoaded', () => {
+    // Force one toggle cycle to ensure proper color initialization
+    darkMode = false; // Temporarily set to false
+    toggleMode();     // Toggle to dark mode with proper colors
+});
 
 // Rotation flag
 let rotatingCube = null;
@@ -106,22 +130,26 @@ function animate() {
     }
 }
 
-// Handle mouse click events
-function onClick(event) {
+// Handle mouse move events
+function onMouseMove(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
 
+    // Check for intersections with cubes
     const intersects = raycaster.intersectObjects(cubes);
     if (intersects.length > 0) {
-        if (rotatingCube === intersects[0].object) {
-            rotatingCube = null;
-        } else {
+        // If the currently intersected cube is different from the rotatingCube, set it to rotate
+        if (rotatingCube !== intersects[0].object) {
             rotatingCube = intersects[0].object;
         }
+    } else {
+        // No cubes are intersected, stop rotating
+        rotatingCube = null;
     }
 }
+
 
 // Dark/Light mode toggle function
 function toggleMode() {
@@ -169,7 +197,6 @@ function toggleMode() {
 }
 
 // Event listeners for clicks and window resize
-window.addEventListener('click', onClick);
 window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -180,5 +207,9 @@ window.addEventListener('resize', () => {
 const toggleButton = document.getElementById('toggleButton');
 toggleButton.addEventListener('click', toggleMode);
 
+window.addEventListener('mousemove', onMouseMove);
+let hoveredCube = null;
+
 // Start the animation loop
 animate();
+
