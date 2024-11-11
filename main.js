@@ -14,6 +14,106 @@ renderer.setClearColor(0x000000); // Start with a black background
 // Adjust camera position
 camera.position.z = 10;
 
+// Create both particle systems but hide one initially
+function createParticleSystems() {
+    // Stars for dark mode (keeping the same)
+    const stars = new THREE.Group();
+    const starGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+    const starMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.6
+    });
+
+    for (let i = 0; i < 200; i++) {
+        const star = new THREE.Mesh(starGeometry, starMaterial);
+        star.position.set(
+            (Math.random() - 0.5) * 30,
+            (Math.random() - 0.5) * 20,
+            -5
+        );
+        star.userData = {
+            speed: Math.random() * 0.03 + 0.02
+        };
+        stars.add(star);
+    }
+
+    // Enhanced confetti for light mode
+    const confetti = new THREE.Group();
+    const confettiColors = [
+        0xFF69B4, // Pink
+        0x87CEEB, // Sky Blue
+        0x98FB98, // Light Green
+        0xDDA0DD, // Plum
+        0xF0E68C, // Khaki
+        0xFF8C00, // Dark Orange
+        0x00FA9A, // Medium Spring Green
+        0xFF1493, // Deep Pink
+        0x00BFFF, // Deep Sky Blue
+        0xFFDAB9  // Peach
+    ];
+    
+    const confettiCount = 400;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        let confettiGeometry;
+        const shapeType = Math.random();
+        
+        if (shapeType < 0.33) {
+            confettiGeometry = new THREE.PlaneGeometry(0.1, 0.15);
+        } else if (shapeType < 0.66) {
+            confettiGeometry = new THREE.PlaneGeometry(0.1, 0.1);
+        } else {
+            confettiGeometry = new THREE.CircleGeometry(0.05, 8);
+        }
+
+        const confettiMaterial = new THREE.MeshBasicMaterial({
+            color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+            transparent: true,
+            opacity: 0.8 + Math.random() * 0.2,
+            side: THREE.DoubleSide
+        });
+
+        const confettiPiece = new THREE.Mesh(confettiGeometry, confettiMaterial);
+        
+        // Initially distribute confetti across the entire visible area
+        confettiPiece.position.set(
+            (Math.random() - 0.5) * 40,  // Full width
+            (Math.random() - 0.5) * 30,  // Full height
+            -5 + (Math.random() - 0.5) * 2
+        );
+        
+        confettiPiece.rotation.set(
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2
+        );
+        
+        confettiPiece.userData = {
+            horizontalSpeed: Math.random() * 0.02 + 0.01,
+            fallSpeed: Math.random() * 0.04 + 0.02,
+            rotationSpeed: {
+                x: (Math.random() - 0.5) * 0.05,
+                y: (Math.random() - 0.5) * 0.05,
+                z: (Math.random() - 0.5) * 0.05
+            }
+        };
+        
+        confetti.add(confettiPiece);
+    }
+
+    // Initially show stars (dark mode) and hide confetti
+    confetti.visible = false;
+    
+    scene.add(stars);
+    scene.add(confetti);
+    
+    return { stars, confetti };
+}
+
+// THEN Create particles immediately
+const particles = createParticleSystems();
+
 // Lighting setup
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
@@ -41,29 +141,51 @@ const titles = [
     "Contact", "Resume", "Fun Facts"
 ];
 
+// Add this helper function before creating the cubes
+function generateDistinctColors(count) {
+    const colors = [];
+    const goldenRatio = 0.618033988749895;
+    let hue = Math.random();
+
+    // Generate distinct colors using the golden ratio method
+    for (let i = 0; i < count; i++) {
+        hue = (hue + goldenRatio) % 1;
+        colors.push({
+            hue,
+            saturation: 70,
+            lightness: 65
+        });
+    }
+
+    // Shuffle the colors
+    for (let i = colors.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [colors[i], colors[j]] = [colors[j], colors[i]];
+    }
+
+    return colors;
+}
+
 // Helper function to create a texture with text, adjusting font size based on text length
-function createTextTexture(text) {
+function createTextTexture(text, colorIndex, distinctColors) {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
     const context = canvas.getContext('2d');
 
-    // Create a vibrant background color that will be visible in both light and dark modes
-    const hue = Math.random() * 360;
-    const saturation = 70; // Higher saturation for more vibrant colors
-    const lightness = 65;  // Balanced lightness that works in both modes
-    context.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    // Use the pre-generated distinct color
+    const color = distinctColors[colorIndex];
+    context.fillStyle = `hsl(${color.hue * 360}, ${color.saturation}%, ${color.lightness}%)`;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Adjust font size based on text length
+    // Rest of your text rendering code remains the same
     let fontSize = 48;
     if (text.length > 7) fontSize = 40;
-    context.font = `bold ${fontSize}px Arial`; // Added bold for better visibility
+    context.font = `bold ${fontSize}px Arial`;
     context.fillStyle = 'black';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     
-    // Add a white text shadow for better contrast
     context.shadowColor = 'white';
     context.shadowBlur = 4;
     context.fillText(text, canvas.width / 2, canvas.height / 2);
@@ -72,10 +194,13 @@ function createTextTexture(text) {
 }
 
 
+
 // Updated cube size and spacing
 const cubeSize = 2;
 const cubeSpacing = 2.5;
 const cubes = [];
+// Generate distinct colors first
+const distinctColors = generateDistinctColors(titles.length);
 
 // Create the grid of cubes and assign titles
 let titleIndex = 0;
@@ -84,7 +209,7 @@ for (let x = -1; x <= 1; x++) {
         const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
         // Create a texture with the corresponding title
-        const textTexture = createTextTexture(titles[titleIndex]);
+        const textTexture = createTextTexture(titles[titleIndex], titleIndex, distinctColors);
         titleIndex++;
 
         // Apply the texture to the cube with enhanced material properties
@@ -121,13 +246,48 @@ const mouse = new THREE.Vector2();
 
 function animate() {
     requestAnimationFrame(animate);
-    renderer.render(scene, camera);
 
-    // Rotate the selected cube if one is active
+    // Animate stars (keeping the same)
+    if (particles.stars.visible) {
+        particles.stars.children.forEach((star) => {
+            star.position.x -= star.userData.speed;
+            if (star.position.x < -15) {
+                star.position.x = 15;
+                star.position.y = (Math.random() - 0.5) * 20;
+            }
+        });
+    }
+
+    // Natural confetti animation
+    if (particles.confetti.visible) {
+        particles.confetti.children.forEach((confetti) => {
+            confetti.position.x -= confetti.userData.horizontalSpeed;
+            confetti.position.y -= confetti.userData.fallSpeed;
+            
+            confetti.rotation.x += confetti.userData.rotationSpeed.x;
+            confetti.rotation.y += confetti.userData.rotationSpeed.y;
+            confetti.rotation.z += confetti.userData.rotationSpeed.z;
+            
+            // Reset position when out of view, maintain continuous flow
+            if (confetti.position.y < -15) {
+                confetti.position.x = (Math.random() - 0.5) * 40;
+                confetti.position.y = 15;  // Reset to just above the visible area
+                
+                // Randomize rotation speeds when resetting
+                confetti.userData.rotationSpeed.x = (Math.random() - 0.5) * 0.05;
+                confetti.userData.rotationSpeed.y = (Math.random() - 0.5) * 0.05;
+                confetti.userData.rotationSpeed.z = (Math.random() - 0.5) * 0.05;
+            }
+        });
+    }
+
+    // Your existing cube rotation code
     if (rotatingCube) {
         rotatingCube.rotation.x += 0.05;
         rotatingCube.rotation.y += 0.05;
     }
+
+    renderer.render(scene, camera);
 }
 
 // Handle mouse move events
@@ -160,6 +320,11 @@ function toggleMode() {
         ambientLight.intensity = 0.4;
         directionalLight.intensity = 0.8;
 
+        // Show stars, hide confetti
+        particles.stars.visible = true;
+        particles.confetti.visible = false;
+
+        // Your existing dark mode code...
         cubes.forEach(cube => {
             if (!cube.material.map) {
                 const vibrantColor = Math.random() * 0x7fffff + 0x808080;
@@ -179,6 +344,11 @@ function toggleMode() {
         ambientLight.intensity = 0.6;
         directionalLight.intensity = 0.9;
 
+        // Hide stars, show confetti
+        particles.stars.visible = false;
+        particles.confetti.visible = true;
+
+        // Your existing light mode code...
         cubes.forEach(cube => {
             if (!cube.material.map) {
                 const darkColor = Math.random() * 0x444444 + 0x222222;
