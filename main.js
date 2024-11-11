@@ -610,8 +610,19 @@ function animate() {
 // Initialize
 const toggleButton = document.getElementById('toggleButton');
 toggleButton.textContent = darkMode ? 'Light Mode' : 'Dark Mode';
-toggleButton.addEventListener('click', toggleMode);
 
+// Add all event listeners for the toggle button
+toggleButton.addEventListener('click', toggleMode);
+toggleButton.addEventListener('touchstart', (event) => {
+    event.preventDefault(); // Prevent any default touch behavior
+    toggleMode();
+    toggleButton.style.opacity = '0.7';  // Visual feedback when pressed
+});
+toggleButton.addEventListener('touchend', () => {
+    toggleButton.style.opacity = '1';    // Restore opacity when released
+});
+
+// Other event listeners
 window.addEventListener('click', onClick);
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
