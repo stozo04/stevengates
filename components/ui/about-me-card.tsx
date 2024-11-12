@@ -11,6 +11,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react" // For dark mode toggle state
 
 interface AboutMeCardProps extends React.ComponentProps<typeof Card> {
@@ -54,7 +55,7 @@ export default function AboutMeCard({ className, ...props }: AboutMeCardProps) {
             <Card className={cn("w-3/4 max-w-[800px] p-6", className)} {...props}>
                 <CardHeader>
                     <div className="flex flex-col items-center space-y-4">
-                        <img
+                        <Image
                             src="/assets/me.jpg"
                             alt="Steven&apos;s profile picture"
                             className="w-24 h-24 rounded-full object-cover"
