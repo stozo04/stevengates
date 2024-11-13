@@ -59,8 +59,6 @@ export default function AboutMeCard({ className, ...props }: AboutMeCardProps) {
                             src="/assets/me.jpg"
                             alt="Steven&apos;s profile picture"
                             className="w-24 h-24 rounded-full object-cover"
-                            width={96}    // 24 * 4 = 96px (since Tailwind's w-24 is 6rem or 96px)
-                            height={96}   // 24 * 4 = 96px (since Tailwind's h-24 is 6rem or 96px)
                         />
                         <CardTitle className="text-center">About Me</CardTitle>
                         <CardDescription className="text-center">
