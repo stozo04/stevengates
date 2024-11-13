@@ -4,6 +4,8 @@ import { ResumeModal, SocialModal } from '@/components/ui/modals';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { Button } from "@/components/ui/button";
+import { Moon, Sun } from "lucide-react";
 
 interface PortfolioItem {
   title: string;
@@ -498,15 +500,19 @@ const PortfolioScene = () => {
   return (
     <div className="relative w-full h-screen">
       <div ref={containerRef} className="absolute inset-0" />
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className={`fixed top-4 right-4 px-4 py-2 rounded-lg font-semibold z-10 transition-colors duration-300 ${darkMode
-          ? 'bg-white text-black hover:bg-gray-200'
-          : 'bg-black text-white hover:bg-gray-800'
-          }`}
-      >
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
+      <div className="fixed top-4 right-4 z-10">
+        <Button
+          onClick={() => setDarkMode(!darkMode)}
+          variant="outline"
+          className="flex items-center space-x-2"
+        >
+          {darkMode ? 
+            <Sun className="h-[1.2rem] w-[1.2rem]" /> : 
+            <Moon className="h-[1.2rem] w-[1.2rem]" />
+          }
+          <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+        </Button>
+      </div>
 
       {activeItem && (
         <div
