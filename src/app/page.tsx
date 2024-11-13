@@ -207,47 +207,27 @@ const createTextTexture = (text: string, colorIndex: number, distinctColors: any
 
 const createCubeMaterial = (textTexture: THREE.Texture) => {
   return new THREE.MeshPhysicalMaterial({
-    // Applies a texture to the surface of the material
-    // In this case, it's using our generated canvas texture with the text
     map: textTexture,
-  
-    // Controls how metallic the surface appears (0.0 - 1.0)
-    // Lower values (like 0.1) make it look more like plastic/wood
-    // Higher values make it look more like metal with stronger reflections
-    metalness: 0.8,
-  
-    // Controls the microsurface roughness of the material (0.0 - 1.0)
-    // Lower values (0.0) create a smooth, mirror-like surface
-    // Higher values (1.0) create a rough, matte surface with diffused reflections
-    roughness: 0.3,
-  
-    // Adds a clear coating layer on top of the material (0.0 - 1.0)
-    // Similar to car paint or lacquered wood
-    // Higher values create a stronger clear coat effect
-    clearcoat: 0.8,
-  
-    // Controls the roughness of the clear coat layer (0.0 - 1.0)
-    // Lower values make the clear coat more mirror-like
-    // Higher values make it more matte/diffused
-    clearcoatRoughness: 0.8,
-  
-    // Controls how much the material reflects light (0.0 - 1.0)
-    // Affects the overall strength of reflections
-    // Higher values create stronger reflections
-    reflectivity: 0.5,
-  
-    // Controls the intensity of environment map reflections
-    // Higher values make environment reflections stronger
-    // Useful when using HDR environment maps
-    envMapIntensity: 0.8,
-  
-    // Determines which side(s) of the geometry faces are rendered
-    // THREE.DoubleSide renders both front and back faces
-    // Alternatives: THREE.FrontSide or THREE.BackSide
+
+    // Reduced metalness to make it less reflective and show the texture better
+    metalness: 0.3,
+
+    // Reduced roughness to make it shinier
+    roughness: 0.2,
+
+    // Increased clearcoat for more shine
+    clearcoat: 1.0,
+
+    // Reduced clearcoat roughness for more glossiness
+    clearcoatRoughness: 0.1,
+
+    // Increased reflectivity
+    reflectivity: 0.8,
+
+    // Increased environment map intensity
+    envMapIntensity: 1.2,
+
     side: THREE.FrontSide,
-  
-    // Enables transparency for the material
-    // Must be true to use opacity property
     transparent: false,
   });
 }
@@ -266,7 +246,6 @@ const PortfolioScene = () => {
 
   useEffect(() => {
     if (!containerRef.current || !THREE) return;
-
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -288,7 +267,7 @@ const PortfolioScene = () => {
     // Mouse interaction variables
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-    
+
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
@@ -299,31 +278,31 @@ const PortfolioScene = () => {
     directionalLight1.shadow.mapSize.width = 2048;
     directionalLight1.shadow.mapSize.height = 2048;
     scene.add(directionalLight1);
-    
+
     const directionalLight2 = new THREE.DirectionalLight(0x00ffff, 0.5);
     directionalLight2.position.set(-5, -5, -5);
     scene.add(directionalLight2);
-    
+
     const pointLight1 = new THREE.PointLight(0xff00ff, 0.5, 20);
     pointLight1.position.set(0, 5, 5);
     scene.add(pointLight1);
-    
+
     const pointLight2 = new THREE.PointLight(0x00ff00, 0.5, 20);
     pointLight2.position.set(5, 0, 5);
     scene.add(pointLight2);
 
     // Create ground plane
     const planeGeometry = new THREE.PlaneGeometry(20, 20);
-    const planeMaterial = new THREE.ShadowMaterial({ 
-        opacity: 0.3,
-        transparent: true 
+    const planeMaterial = new THREE.ShadowMaterial({
+      opacity: 0.3,
+      transparent: true
     });
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = -1.5;
     plane.receiveShadow = true;
     scene.add(plane);
-    
+
     // Create particles
     const particles = createParticleSystems(THREE);
     scene.add(particles.stars);
@@ -338,17 +317,27 @@ const PortfolioScene = () => {
     const cubes: any[] = [];
     const distinctColors = generateDistinctColors(9);
 
-    Object.keys(portfolioContent).forEach((title, index) => {
-      console.log('portfolioContent: ', portfolioContent)
-      console.log('title: ', title)
-      console.log('index: ', index)
+    const items = Object.keys(portfolioContent);
+    const cols = 3;
+    const rows = Math.ceil(items.length / cols);
+    const totalWidth = (cols - 1) * cubeSpacing;
+    const totalHeight = (rows - 1) * cubeSpacing;
+
+    items.forEach((title, index) => {
       const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize, 2, 2, 2);
       const textTexture = createTextTexture(title, index, distinctColors);
       const material = createCubeMaterial(textTexture);
 
       const cube = new THREE.Mesh(geometry, material);
-      const x = ((index % 3) - 1) * cubeSpacing;
-      const y = (Math.floor(index / 3) - 1) * cubeSpacing;
+
+      // Calculate grid position
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+
+      // Center the grid
+      const x = (col * cubeSpacing) - (totalWidth / 2);
+      const y = -(row * cubeSpacing) + (totalHeight / 2);
+
       cube.position.set(x, y, 0);
       cube.userData = {
         title,
@@ -370,15 +359,15 @@ const PortfolioScene = () => {
     const onMouseMove = (event: MouseEvent) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    
+
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(cubes);
-    
+
       // Reset all cubes first
       cubes.forEach(cube => {
         cube.scale.setScalar(1.0);
       });
-    
+
       if (intersects.length > 0) {
         const cube = intersects[0].object;
         // Scale up the hovered cube
@@ -512,73 +501,73 @@ const PortfolioScene = () => {
       <button
         onClick={() => setDarkMode(!darkMode)}
         className={`fixed top-4 right-4 px-4 py-2 rounded-lg font-semibold z-10 transition-colors duration-300 ${darkMode
-            ? 'bg-white text-black hover:bg-gray-200'
-            : 'bg-black text-white hover:bg-gray-800'
+          ? 'bg-white text-black hover:bg-gray-200'
+          : 'bg-black text-white hover:bg-gray-800'
           }`}
       >
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
 
       {activeItem && (
-  <div
-    className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in"
-    onClick={() => setActiveItem(null)}
-  >
-    {activeItem === 'Social' ? (
-      <SocialModal 
-        darkMode={darkMode} 
-        onClose={() => setActiveItem(null)} 
-      />
-    ) : activeItem === 'Resume' ? (
-      <ResumeModal 
-        darkMode={darkMode} 
-        onClose={() => setActiveItem(null)} 
-      />
-    ) : (
-      // Your existing default modal content
-      <div
-        className={`
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in"
+          onClick={() => setActiveItem(null)}
+        >
+          {activeItem === 'Social' ? (
+            <SocialModal
+              darkMode={darkMode}
+              onClose={() => setActiveItem(null)}
+            />
+          ) : activeItem === 'Resume' ? (
+            <ResumeModal
+              darkMode={darkMode}
+              onClose={() => setActiveItem(null)}
+            />
+          ) : (
+            // Your existing default modal content
+            <div
+              className={`
           max-w-md w-full p-6 rounded-xl shadow-lg transform transition-all duration-300
           animate-slide-up backdrop-blur-sm
           ${darkMode
-            ? 'bg-gray-800/90 text-white'
-            : 'bg-white/90 text-gray-900'
-          }
+                  ? 'bg-gray-800/90 text-white'
+                  : 'bg-white/90 text-gray-900'
+                }
         `}
-        onClick={e => e.stopPropagation()}
-      >
-        <h2 className="text-2xl font-bold mb-4">
-          {portfolioContent[activeItem].title}
-        </h2>
-        <p className="mb-6 opacity-90">
-          {portfolioContent[activeItem].content}
-        </p>
-        <div className="flex justify-end gap-4">
-          
-           <a href={portfolioContent[activeItem].link}
-            target="_blank" rel="noopener noreferrer"
-            className={`
+              onClick={e => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold mb-4">
+                {portfolioContent[activeItem].title}
+              </h2>
+              <p className="mb-6 opacity-90">
+                {portfolioContent[activeItem].content}
+              </p>
+              <div className="flex justify-end gap-4">
+
+                <a href={portfolioContent[activeItem].link}
+                  target="_blank" rel="noopener noreferrer"
+                  className={`
               px-4 py-2 rounded-lg font-semibold transition-colors duration-300
               ${darkMode
-                ? 'bg-white text-gray-900 hover:bg-gray-200'
-                : 'bg-gray-900 text-white hover:bg-gray-800'
-              }
+                      ? 'bg-white text-gray-900 hover:bg-gray-200'
+                      : 'bg-gray-900 text-white hover:bg-gray-800'
+                    }
             `}
-          >
-            Connect
-          </a>
-          <button
-            onClick={() => setActiveItem(null)}
-            className="px-4 py-2 rounded-lg font-semibold bg-gray-500 
+                >
+                  Connect
+                </a>
+                <button
+                  onClick={() => setActiveItem(null)}
+                  className="px-4 py-2 rounded-lg font-semibold bg-gray-500 
                       text-white transition-colors duration-300 hover:bg-gray-600"
-          >
-            Close
-          </button>
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-    )}
-  </div>
-)}
+      )}
     </div>
   );
 };
