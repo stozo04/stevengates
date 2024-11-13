@@ -1,5 +1,6 @@
 'use client';
 
+import { ResumeModal, SocialModal } from '@/components/ui/modals';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
@@ -30,12 +31,7 @@ const portfolioContent: Record<string, PortfolioItem> = {
     content: "My technical expertise includes...",
     link: "#skills"
   },
-  "Portfolio": {
-    title: "Portfolio",
-    content: "Check out my work...",
-    link: "#portfolio"
-  },
-  "Blog": {
+  "Blogs": {
     title: "Blog Posts",
     content: "Latest thoughts and tutorials...",
     link: "#blog"
@@ -45,20 +41,10 @@ const portfolioContent: Record<string, PortfolioItem> = {
     content: "Let me introduce myself...",
     link: "#about"
   },
-  "Contact": {
-    title: "Get in Touch",
-    content: "Let's connect...",
-    link: "#contact"
-  },
   "Resume": {
     title: "My Resume",
-    content: "Professional experience and education...",
+    content: "Coming Soon...",
     link: "#resume"
-  },
-  "Work": {
-    title: "My Work",
-    content: "Check out my previous work...",
-    link: "#work"
   },
   "Social": {
     title: "Social Media",
@@ -409,7 +395,7 @@ const PortfolioScene = () => {
 
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(cubes);
-      const acceptedLink = ["About"];
+      const acceptedLink = ["About", "Projects", "Blogs", "Skills"];
 
       if (intersects.length > 0) {
         const cube = intersects[0].object;
@@ -534,51 +520,65 @@ const PortfolioScene = () => {
       </button>
 
       {activeItem && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in"
-          onClick={() => setActiveItem(null)}
-        >
-          <div
+  <div
+    className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in"
+    onClick={() => setActiveItem(null)}
+  >
+    {activeItem === 'Social' ? (
+      <SocialModal 
+        darkMode={darkMode} 
+        onClose={() => setActiveItem(null)} 
+      />
+    ) : activeItem === 'Resume' ? (
+      <ResumeModal 
+        darkMode={darkMode} 
+        onClose={() => setActiveItem(null)} 
+      />
+    ) : (
+      // Your existing default modal content
+      <div
+        className={`
+          max-w-md w-full p-6 rounded-xl shadow-lg transform transition-all duration-300
+          animate-slide-up backdrop-blur-sm
+          ${darkMode
+            ? 'bg-gray-800/90 text-white'
+            : 'bg-white/90 text-gray-900'
+          }
+        `}
+        onClick={e => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold mb-4">
+          {portfolioContent[activeItem].title}
+        </h2>
+        <p className="mb-6 opacity-90">
+          {portfolioContent[activeItem].content}
+        </p>
+        <div className="flex justify-end gap-4">
+          
+           <a href={portfolioContent[activeItem].link}
+            target="_blank" rel="noopener noreferrer"
             className={`
-              max-w-md w-full p-6 rounded-xl shadow-lg transform transition-all duration-300
-              animate-slide-up backdrop-blur-sm
+              px-4 py-2 rounded-lg font-semibold transition-colors duration-300
               ${darkMode
-                ? 'bg-gray-800/90 text-white'
-                : 'bg-white/90 text-gray-900'
+                ? 'bg-white text-gray-900 hover:bg-gray-200'
+                : 'bg-gray-900 text-white hover:bg-gray-800'
               }
             `}
-            onClick={e => e.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold mb-4">
-              {portfolioContent[activeItem].title}
-            </h2>
-            <p className="mb-6 opacity-90">
-              {portfolioContent[activeItem].content}
-            </p>
-            <div className="flex justify-end gap-4">
-              <a
-                href={portfolioContent[activeItem].link}
-                className={`
-                  px-4 py-2 rounded-lg font-semibold transition-colors duration-300
-                  ${darkMode
-                    ? 'bg-white text-gray-900 hover:bg-gray-200'
-                    : 'bg-gray-900 text-white hover:bg-gray-800'
-                  }
-                `}
-              >
-                Learn More
-              </a>
-              <button
-                onClick={() => setActiveItem(null)}
-                className="px-4 py-2 rounded-lg font-semibold bg-gray-500 
-                          text-white transition-colors duration-300 hover:bg-gray-600"
-              >
-                Close
-              </button>
-            </div>
-          </div>
+            Connect
+          </a>
+          <button
+            onClick={() => setActiveItem(null)}
+            className="px-4 py-2 rounded-lg font-semibold bg-gray-500 
+                      text-white transition-colors duration-300 hover:bg-gray-600"
+          >
+            Close
+          </button>
         </div>
-      )}
+      </div>
+    )}
+  </div>
+)}
     </div>
   );
 };

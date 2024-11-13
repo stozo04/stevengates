@@ -110,7 +110,7 @@ export default function Page() {
             <div className="fixed top-4 left-4 z-10">
                 <Link href="/" passHref>
                     <Button variant="outline">
-                        ← Back to Home
+                        ← Home
                     </Button>
                 </Link>
             </div>
