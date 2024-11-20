@@ -16,6 +16,11 @@ import {
     Moon 
 } from "lucide-react"
 import { useState, useEffect } from "react"
+import { Switch } from "@/components/ui/switch"
+const PROJECTS = [
+    {name: "Mila Gates", url: "www.milagates.com", techStack: ["TODO", "TODO"]},
+    {name: "Linq To Typescript", url: "www.linqtotypescript.com", techStack: ["TODO", "TODO"]}
+]
 
 // Create a separate component for the card content
 function AboutMeCard() {
@@ -60,7 +65,8 @@ function AboutMeCard() {
 
 // Main page component
 export default function Page() {
-    const [isDarkMode, setIsDarkMode] = useState(false)
+    const [isDarkMode, setIsDarkMode] = useState(false) // Dark Mode Toggle
+    const [isSwitchOn, setSwitchOn] = useState(false) // Switch
 
     useEffect(() => {
         // Check initial dark mode preference
@@ -90,7 +96,11 @@ export default function Page() {
                     </Button>
                 </Link>
             </div>
-
+            <Switch
+                className="m-4"
+                checked={isSwitchOn}
+                onCheckedChange={(e) => setSwitchOn(!isSwitchOn)}
+            />
             <div className="fixed top-4 right-4 z-10">
                 <Button
                     onClick={toggleMode}
@@ -103,8 +113,10 @@ export default function Page() {
             </div>
 
             {/* Main content */}
-            <div className="flex items-center justify-center min-h-screen px-4 py-16">
-                <AboutMeCard />
+            <div className="flex items-center justify-around min-h-screen px-4 py-16">
+                {
+                    PROJECTS.map((p, i)=> (<div className="border border-grey-300 p-4 rounded-l shadow-md" key={i}> { p.name }</div>))
+                }
             </div>
         </div>
     )
