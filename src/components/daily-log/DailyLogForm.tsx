@@ -17,14 +17,18 @@ const DailyLogForm = () => {
         const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
         setFormData((prev) => ({ ...prev, date: today }));
     }, []);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value, type, checked } = e.target;
+    
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+      ) => {
+        const { name, value, type, checked } = e.target as HTMLInputElement;
+      
         setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+          ...formData,
+          [name]: type === "checkbox" ? checked : value,
         });
-    };
+      };
+      
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

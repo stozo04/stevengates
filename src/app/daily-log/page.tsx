@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Sun, Moon, LogOut } from "lucide-react";
+import { Gauge } from 'lucide-react';
+import Link from "next/link";
+
 
 const DailyLogPage = () => {
     const router = useRouter();
@@ -84,6 +86,12 @@ const DailyLogPage = () => {
                 <Link href="/" passHref>
                     <Button variant="outline">
                         ← Home
+                    </Button>
+                </Link>
+                <Link href="/logs" passHref>
+                    <Button variant="outline" className="flex items-center gap-2">
+                        <Gauge className="h-4 w-4" /> {/* Add the Gauge icon */}
+                        Log Dashboard
                     </Button>
                 </Link>
                 <Button
