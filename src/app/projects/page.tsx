@@ -7,16 +7,7 @@ import {
     // CardDescription,
     CardContent
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-// import Image from "next/image"
-import { 
-    // Check, 
-    Sun, 
-    Moon 
-} from "lucide-react"
-import { useState, useEffect } from "react"
-import { Switch } from "@/components/ui/switch"
+import NavBar from "@/components/navbar/NavBar"
 const PROJECTS = [
     {name: "Mila Gates", url: "www.milagates.com", techStack: ["TODO", "TODO"]},
     {name: "Linq To Typescript", url: "www.linqtotypescript.com", techStack: ["TODO", "TODO"]}
@@ -65,52 +56,10 @@ function AboutMeCard() {
 
 // Main page component
 export default function Page() {
-    const [isDarkMode, setIsDarkMode] = useState(false) // Dark Mode Toggle
-    const [isSwitchOn, setSwitchOn] = useState(false) // Switch
-
-    useEffect(() => {
-        // Check initial dark mode preference
-        const isDark = document.documentElement.classList.contains('dark')
-        setIsDarkMode(isDark)
-
-        // Optional: Check system preference
-        const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)')
-        if (!isDark && darkModePreference.matches) {
-            setIsDarkMode(true)
-            document.documentElement.classList.add('dark')
-        }
-    }, [])
-
-    const toggleMode = () => {
-        setIsDarkMode(!isDarkMode)
-        document.documentElement.classList.toggle('dark')
-    }
-
     return (
         <div>
-            {/* Navigation buttons */}
-            <div className="fixed top-4 left-4 z-10">
-                <Link href="/" passHref>
-                    <Button variant="outline">
-                        ← Home
-                    </Button>
-                </Link>
-            </div>
-            <Switch
-                className="m-4"
-                checked={isSwitchOn}
-                onCheckedChange={(e) => setSwitchOn(!isSwitchOn)}
-            />
-            <div className="fixed top-4 right-4 z-10">
-                <Button
-                    onClick={toggleMode}
-                    variant="outline"
-                    className="flex items-center space-x-2"
-                >
-                    {isDarkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
-                    <span>{isDarkMode ? "Light Mode" : "Dark Mode"}</span>
-                </Button>
-            </div>
+            {/* Nav Bar */}
+            <NavBar />
 
             {/* Main content */}
             <div className="flex items-center justify-around min-h-screen px-4 py-16">

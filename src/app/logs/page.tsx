@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Sun, Moon, LogOut } from "lucide-react";
 import { format } from 'date-fns';
-import Link from "next/link";
+
+import NavBar from "@/components/navbar/NavBar";
 
 interface DailyLog {
   id: number;
@@ -21,10 +19,7 @@ interface DailyLog {
 }
 
 const DailyLogPage = () => {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [logs, setLogs] = useState<DailyLog[]>([]);
 
   const supabase = createBrowserClient(
@@ -53,48 +48,12 @@ const DailyLogPage = () => {
     fetchLogs();
   }, [supabase]);
 
-  const toggleMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
-  };
-
-  const handleSignOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      router.push("/login");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div>
-      {/* Navigation */}
-      <div className="fixed top-4 left-4 z-10 flex gap-2">
-        <Link href="/" passHref>
-          <Button variant="outline">← Home</Button>
-        </Link>
-        <Link href="/daily-log" passHref>
-          <Button variant="outline" className="flex items-center gap-2">
-            <span>+</span>
-            Add Log
-          </Button>
-        </Link>
-        <Button onClick={handleSignOut} variant="outline">
-          <LogOut className="h-4 w-4" />
-          Sign Out
-        </Button>
-      </div>
-
-      <div className="fixed top-4 right-4 z-10">
-        <Button onClick={toggleMode} variant="outline">
-          {isDarkMode ? <Sun /> : <Moon />}
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
-        </Button>
-      </div>
+      {/* Nav Bar */}
+      <NavBar />
 
       {/* Logs Table */}
       <div className="p-4">

@@ -82,9 +82,16 @@ const DailyLogForm = () => {
                     required
                 >
                     <option value="">Select...</option>
-                    <option value="Good">Good</option>
-                    <option value="Average">Average</option>
-                    <option value="Bad">Bad</option>
+                    <option value="1">Perfect</option>
+                    <option value="2">Felt Normal</option>
+                    <option value="3">Relaxed</option>
+                    <option value="4">Not bothered</option>
+                    <option value="5">Average</option>
+                    <option value="6">Tense</option>
+                    <option value="7">Had to sleep</option>
+                    <option value="8">Panic Attack</option>
+                    <option value="9">Critical</option>
+                    <option value="10">Hospital</option>
                 </select>
             </div>
 
