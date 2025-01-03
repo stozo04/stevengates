@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from 'next/font/google';
 import Footer from "@/components/ui/footer";
 import GoogleAnalytics from "@/components/ui/googleAnalytics";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -17,17 +18,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}
-      >
-        <div className="relative flex min-h-screen flex-col">
-          <div className="flex-1">
+       <head />
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             {children}
-          </div>
+          </ThemeProvider>
           <Footer />
           <GoogleAnalytics />
-        </div>
-      </body>
+        </body>
     </html>
   );
 }

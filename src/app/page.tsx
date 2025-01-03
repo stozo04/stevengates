@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
+import { useTheme } from 'next-themes';
+import { ModeToggle } from '@/components/mode-toggle/page';
 
 interface PortfolioItem {
   title: string;
@@ -236,7 +237,7 @@ const createCubeMaterial = (textTexture: THREE.Texture) => {
 
 const PortfolioScene = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [darkMode, setDarkMode] = useState(true);
+  const { resolvedTheme, setTheme } = useTheme(); // Use theme context
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const sceneRef = useRef<any>(null);
   const cameraRef = useRef<any>(null);
@@ -261,7 +262,7 @@ const PortfolioScene = () => {
     renderer.toneMappingExposure = 1.2;
     // Initial Dark Mode
     containerRef.current.appendChild(renderer.domElement);
-    renderer.setClearColor(darkMode ? 0x000000 : 0xffffff, 1);
+    renderer.setClearColor(resolvedTheme ? 0x000000 : 0xffffff, 1);
 
     // Adjust camera position
     camera.position.z = 10;
@@ -309,8 +310,8 @@ const PortfolioScene = () => {
     const particles = createParticleSystems(THREE);
     scene.add(particles.stars);
     scene.add(particles.confetti);
-    particles.stars.visible = darkMode;
-    particles.confetti.visible = !darkMode;
+    particles.stars.visible = resolvedTheme;
+    particles.confetti.visible = !resolvedTheme;
     particlesRef.current = particles;
 
     // Create cubes
@@ -440,7 +441,7 @@ const PortfolioScene = () => {
         const bounce = Math.sin(time + cube.userData.bounceOffset) * 0.1;
         cube.position.y = cube.userData.originalY + bounce;
       });
-      renderer.setClearColor(darkMode ? 0x000000 : 0xffffff, 1);
+      renderer.setClearColor(resolvedTheme ? 0x000000 : 0xffffff, 1);
       renderer.render(scene, camera);
       animationFrameRef.current = requestAnimationFrame(animate);
     };
@@ -487,31 +488,22 @@ const PortfolioScene = () => {
 
       renderer.dispose();
     };
-  }, [darkMode]);
+  }, [resolvedTheme]);
 
   // Update particle visibility when dark mode changes
   useEffect(() => {
     if (particlesRef.current) {
-      particlesRef.current.stars.visible = darkMode;
-      particlesRef.current.confetti.visible = !darkMode;
+      particlesRef.current.stars.visible = resolvedTheme === 'dark';
+      particlesRef.current.confetti.visible = resolvedTheme !== 'dark';
     }
-  }, [darkMode]);
+  }, [resolvedTheme]);
 
   return (
     <div className="relative w-full h-screen">
       <div ref={containerRef} className="absolute inset-0" />
       <div className="fixed top-4 right-4 z-10">
-        <Button
-          onClick={() => setDarkMode(!darkMode)}
-          variant="outline"
-          className="flex items-center space-x-2"
-        >
-          {darkMode ? 
-            <Sun className="h-[1.2rem] w-[1.2rem]" /> : 
-            <Moon className="h-[1.2rem] w-[1.2rem]" />
-          }
-          <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
-        </Button>
+      <ModeToggle />
+  
       </div>
 
       {activeItem && (
@@ -521,12 +513,12 @@ const PortfolioScene = () => {
         >
           {activeItem === 'Social' ? (
             <SocialModal
-              darkMode={darkMode}
+            darkMode={resolvedTheme ?? "light"}
               onClose={() => setActiveItem(null)}
             />
           ) : activeItem === 'Resume' ? (
             <ResumeModal
-              darkMode={darkMode}
+            darkMode={resolvedTheme ?? "light"}
               onClose={() => setActiveItem(null)}
             />
           ) : (
@@ -535,7 +527,7 @@ const PortfolioScene = () => {
               className={`
           max-w-md w-full p-6 rounded-xl shadow-lg transform transition-all duration-300
           animate-slide-up backdrop-blur-sm
-          ${darkMode
+          ${resolvedTheme
                   ? 'bg-gray-800/90 text-white'
                   : 'bg-white/90 text-gray-900'
                 }
@@ -554,7 +546,7 @@ const PortfolioScene = () => {
                   target="_blank" rel="noopener noreferrer"
                   className={`
               px-4 py-2 rounded-lg font-semibold transition-colors duration-300
-              ${darkMode
+              ${resolvedTheme
                       ? 'bg-white text-gray-900 hover:bg-gray-200'
                       : 'bg-gray-900 text-white hover:bg-gray-800'
                     }

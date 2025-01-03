@@ -2,11 +2,12 @@ import { Facebook, Linkedin, Twitter } from 'lucide-react';
 import React from 'react';
 
 interface ModalProps {
-  darkMode: boolean;
+  darkMode: string;
   onClose: () => void;
 }
 
 const SocialModal = ({ darkMode, onClose }: ModalProps) => {
+  const isDark = darkMode === 'dark';
   const socialLinks = [
     {
       name: 'Twitter',
@@ -30,7 +31,7 @@ const SocialModal = ({ darkMode, onClose }: ModalProps) => {
       className={`
         max-w-md w-full p-6 rounded-xl shadow-lg transform transition-all duration-300
         animate-slide-up backdrop-blur-sm
-        ${darkMode ? 'bg-gray-800/90 text-white' : 'bg-white/90 text-gray-900'}
+        ${isDark ? 'bg-gray-800/90 text-white' : 'bg-white/90 text-gray-900'}
       `}
       onClick={e => e.stopPropagation()}
     >
@@ -44,7 +45,7 @@ const SocialModal = ({ darkMode, onClose }: ModalProps) => {
             rel="noopener noreferrer"
             className={`
               flex items-center gap-3 p-4 rounded-lg transition-colors duration-300
-              ${darkMode 
+              ${isDark 
                 ? 'hover:bg-gray-700/50' 
                 : 'hover:bg-gray-100/50'
               }
@@ -69,12 +70,13 @@ const SocialModal = ({ darkMode, onClose }: ModalProps) => {
 };
 
 const ResumeModal = ({ darkMode, onClose }: ModalProps) => {
+  const isDark = darkMode === 'dark';
   return (
     <div
       className={`
         max-w-4xl w-full p-6 rounded-xl shadow-lg transform transition-all duration-300
         animate-slide-up backdrop-blur-sm
-        ${darkMode ? 'bg-gray-800/90 text-white' : 'bg-white/90 text-gray-900'}
+        ${isDark ? 'bg-gray-800/90 text-white' : 'bg-white/90 text-gray-900'}
       `}
       onClick={e => e.stopPropagation()}
     >
@@ -92,7 +94,7 @@ const ResumeModal = ({ darkMode, onClose }: ModalProps) => {
           download="Steven_Gates_Resume.pdf"
           className={`
             px-4 py-2 rounded-lg font-semibold transition-colors duration-300
-            ${darkMode
+            ${isDark
               ? 'bg-white text-gray-900 hover:bg-gray-200'
               : 'bg-gray-900 text-white hover:bg-gray-800'
             }

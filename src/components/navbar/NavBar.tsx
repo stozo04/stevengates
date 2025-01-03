@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import Link from "next/link";
+import { ModeToggle } from "../mode-toggle/page";
 
 const NavBar = () => {
     const router = useRouter();
@@ -91,11 +92,11 @@ const NavBar = () => {
                 {/* Add Log Button */}
                 {pathname === '/logs' && (
                     <Link href="/daily-log" passHref>
-                    <Button variant="outline" className="flex items-center gap-2 w-full md:w-auto">
-                      <span>+</span>
-                      Add Log
-                    </Button>
-                  </Link>
+                        <Button variant="outline" className="flex items-center gap-2 w-full md:w-auto">
+                            <span>+</span>
+                            Add Log
+                        </Button>
+                    </Link>
                 )}
                 {/* Sign Out Button */}
                 {pathname === '/daily-log' || pathname === '/logs' && (<Button
@@ -108,18 +109,9 @@ const NavBar = () => {
                 </Button>
                 )}
                 {/* Toggle Mode Button */}
-                <Button
-                    onClick={toggleMode}
-                    variant="outline"
-                    className="flex items-center space-x-2 w-full md:w-auto md:fixed md:top-4 md:right-4"
-                >
-                    {isDarkMode ? (
-                        <Sun className="h-[1.2rem] w-[1.2rem]" />
-                    ) : (
-                        <Moon className="h-[1.2rem] w-[1.2rem]" />
-                    )}
-                    <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
-                </Button>
+                <div className="flex items-center space-x-2 w-full md:w-auto md:fixed md:top-4 md:right-4">
+                    <ModeToggle />
+                </div>
             </nav>
         </div>
     );
