@@ -6,7 +6,6 @@ import {
     CardContent
 } from "@/components/ui/card"
 import Image from "next/image"
-import NavBar from "@/components/navbar/NavBar"
 
 // Create a separate component for the card content
 function AboutMeCard() {
@@ -50,9 +49,6 @@ function AboutMeCard() {
 export default function Page() {
     return (
         <div>
-             {/* Nav Bar */}
-             <NavBar />
-
             {/* Main content */}
             <div className="flex items-center justify-center min-h-screen px-4 py-16">
                 <AboutMeCard />

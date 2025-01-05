@@ -7,7 +7,6 @@ import {
     // CardDescription,
     CardContent
 } from "@/components/ui/card"
-import NavBar from "@/components/navbar/NavBar"
 const PROJECTS = [
     {name: "Mila Gates", url: "www.milagates.com", techStack: ["TODO", "TODO"]},
     {name: "Linq To Typescript", url: "www.linqtotypescript.com", techStack: ["TODO", "TODO"]}
@@ -58,9 +57,6 @@ function AboutMeCard() {
 export default function Page() {
     return (
         <div>
-            {/* Nav Bar */}
-            <NavBar />
-
             {/* Main content */}
             <div className="flex items-center justify-around min-h-screen px-4 py-16">
                 {

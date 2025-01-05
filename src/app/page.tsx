@@ -4,7 +4,6 @@ import { ResumeModal, SocialModal } from '@/components/ui/modals';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { Button } from "@/components/ui/button";
 import { useTheme } from 'next-themes';
 import { ModeToggle } from '@/components/mode-toggle/page';
 

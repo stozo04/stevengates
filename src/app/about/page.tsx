@@ -87,9 +87,6 @@ export default function Page() {
 
     return (
         <div>
-            {/* Nav Bar */}
-            <NavBar />
-
             {/* Main content */}
             <div className="flex items-center justify-center min-h-screen px-4 py-16">
                 <AboutMeCard />

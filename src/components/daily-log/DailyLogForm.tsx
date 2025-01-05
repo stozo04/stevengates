@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Button } from "@/components/ui/button"
-
-export function ButtonDemo() {
-    return <Button>Button</Button>
-}
 
 
 const DailyLogForm = () => {
@@ -63,10 +58,10 @@ const DailyLogForm = () => {
     };
 
     return (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center py-4">
             <section className="w-full border border-white-500">
                 <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-lg border border-2 dark:border-red-50 light:border-red-600">
-                    <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Create A Daily Log</h2>
+                    <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Create Daily Log</h2>
                     <form
                         className="space-y-8"
                         onSubmit={handleSubmit}

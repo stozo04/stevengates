@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { format } from 'date-fns';
 
-import NavBar from "@/components/navbar/NavBar";
-
 interface DailyLog {
   id: number;
   date: string; // Supabase returns dates as strings
@@ -52,9 +50,6 @@ const DailyLogPage = () => {
 
   return (
     <div>
-      {/* Nav Bar */}
-      <NavBar />
-
       {/* Logs Table */}
       <div className="p-4">
         <form className="max-w-lg mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 space-y-6 mt-8">

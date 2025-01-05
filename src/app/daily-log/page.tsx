@@ -4,8 +4,6 @@ import DailyLogForm from '@/components/daily-log/DailyLogForm';
 import { createBrowserClient } from '@supabase/ssr';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import NavBar from '@/components/navbar/NavBar';
-
 
 const DailyLogPage = () => {
   const router = useRouter();
@@ -44,8 +42,6 @@ const DailyLogPage = () => {
 
   }, [router, supabase.auth]);
 
-
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -55,13 +51,9 @@ const DailyLogPage = () => {
   }
 
   return (
-    <div>
-      {/* Nav Bar */}
-      <NavBar />
+    <div className="px-4">
       {/* Main Content */}
-      <div className="p-4">
         <DailyLogForm />
-      </div>
     </div>
   );
 };
