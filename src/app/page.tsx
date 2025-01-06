@@ -136,9 +136,16 @@ const createParticleSystems = (THREE: any) => {
   return { stars, confetti };
 };
 
+// Define the type for the color object
+interface Color {
+  hue: number;
+  saturation: number;
+  lightness: number;
+}
+
 // Generate distinct colors using golden ratio
-const generateDistinctColors = (count: number) => {
-  const colors = [];
+const generateDistinctColors = (count: number): Color[] => {
+  const colors: Color[] = []; // Explicitly type the colors array
   const goldenRatio = 0.618033988749895;
   let hue = Math.random();
 
@@ -147,7 +154,7 @@ const generateDistinctColors = (count: number) => {
     colors.push({
       hue,
       saturation: 70,
-      lightness: 65
+      lightness: 65,
     });
   }
 
@@ -157,7 +164,7 @@ const generateDistinctColors = (count: number) => {
   }
 
   return colors;
-}
+};
 
 const createTextTexture = (text: string, colorIndex: number, distinctColors: any) => {
   const canvas = document.createElement('canvas');
