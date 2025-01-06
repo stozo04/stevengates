@@ -1,5 +1,6 @@
 import ThemeButton from "@/components/DarkMode/ThemeButton/ThemeButton";
 import Link from "next/link";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { PiShoppingCart } from "react-icons/pi";
 
 const Topbar = () => {
@@ -60,14 +61,11 @@ const Topbar = () => {
       </Link>
 
       <div className="d-flex gap-3 align-items-center">
-        <Link href="/checkout" className="position-relative">
+        <Link href="/dashboard" className="position-relative">
           <div className="side-icon bg1-color">
             <i className="ph ph-shopping-cart n11-color">
-              <PiShoppingCart />
+              <AiOutlineDashboard />
             </i>
-          </div>
-          <div className="cart-counter-header">
-            <span className="n11-color">02</span>
           </div>
         </Link>
 

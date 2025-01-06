@@ -1,6 +1,7 @@
 import ThemeButton from "@/components/DarkMode/ThemeButton/ThemeButton";
 import BottomNav from "@/components/Shared/BottomNav/BottomNav";
 import Link from "next/link";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { PiShoppingCart } from "react-icons/pi";
 
 export default function OtherLayout({
@@ -68,14 +69,11 @@ export default function OtherLayout({
           </Link>
 
           <div className="d-flex gap-3 align-items-center">
-            <Link href="/checkout" className="position-relative">
+            <Link href="/dashboard" className="position-relative">
               <div className="side-icon bg1-color">
                 <i className="n11-color">
-                  <PiShoppingCart />
+                <AiOutlineDashboard />
                 </i>
-              </div>
-              <div className="cart-counter-header">
-                <span className="n11-color">02</span>
               </div>
             </Link>
             <div className="side-icon bg1-color">

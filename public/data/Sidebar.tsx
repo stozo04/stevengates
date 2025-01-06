@@ -1,6 +1,5 @@
+import { AiOutlineDashboard } from "react-icons/ai";
 import {
-  PiBriefcase,
-  PiBriefcaseFill,
   PiCodeBlock,
   PiCodeBlockFill,
   PiEnvelope,
@@ -9,8 +8,6 @@ import {
   PiNewspaperClippingFill,
   PiNotebook,
   PiNotebookFill,
-  PiShoppingBag,
-  PiShoppingBagFill,
   PiUser,
   PiUserFill,
 } from "react-icons/pi";
@@ -37,21 +34,21 @@ export const sidebarsData = [
   },
   {
     id: 4,
-    name: "Dashboard",
-    url: "/products",
-    icon: <PiShoppingBag />,
-  },
-  {
-    id: 5,
     name: "Blog",
     url: "/blog",
     icon: <PiNewspaperClipping />,
   },
   {
-    id: 6,
+    id: 5,
     name: "Contact",
     url: "/contact",
     icon: <PiEnvelope />,
+  },
+  {
+    id: 6,
+    name: "Dashboard",
+    url: "/dashboard",
+    icon: <AiOutlineDashboard />,
   },
 ];
 export const bottomNavData = [
@@ -77,8 +74,8 @@ export const bottomNavData = [
   {
     id: 4,
     name: "Dashboard",
-    url: "/products",
-    icon: <PiShoppingBagFill />,
+    url: "/dashboard",
+    icon: <AiOutlineDashboard />,
   },
   {
     id: 5,
