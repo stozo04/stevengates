@@ -1,16 +1,14 @@
-import type { Metadata } from "next";
+"use client";
+import { Jost } from "next/font/google";
 import "./globals.css";
-import { Inter } from "next/font/google";
-import Footer from "@/components/ui/footer";
-import GoogleAnalytics from "@/components/ui/googleAnalytics";
-import { ThemeProvider } from "next-themes";
-import NavBar from "@/components/navbar/NavBar";
+import "@/../public/scss/style.scss";
+import Bootstrap from "@/components/Bootstrap/Bootstrap";
+import Provider from "@/components/DarkMode/Provider/Provider";
+import { Suspense } from "react";
+import Loading from "./loading";
+import ColorSwitcher from "@/components/Shared/ColorPalettes/ColorSwitcher";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Steven Gates",
-};
+const jost = Jost({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -18,21 +16,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* Nav Bar must be inside ThemeProvider */}
-          <NavBar />
-          {children}
-          <Footer />
-          <GoogleAnalytics />
-        </ThemeProvider>
+    <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <title>Steven Gates</title>
+      </head>
+      <body className={jost.className}>
+        <Provider>
+          <Bootstrap>
+            <Suspense fallback={<Loading />}>
+              <div>{children}</div>
+              <ColorSwitcher />
+            </Suspense>
+          </Bootstrap>
+        </Provider>
       </body>
     </html>
   );
