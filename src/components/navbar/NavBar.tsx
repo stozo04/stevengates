@@ -1,120 +1,109 @@
 "use client";
+
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, LogOut, Gauge } from "lucide-react";
-import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
-import Link from "next/link";
 import { ModeToggle } from "../mode-toggle/page";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import { useState } from "react";
+import { createBrowserClient } from "@supabase/ssr";
+import { LogOut, Gauge, Menu, Home as HomeIcon } from "lucide-react";
 
-const NavBar = () => {
-    const router = useRouter();
-    const pathname = usePathname();
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
+export default function NavBar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        // Check dark mode preference
-        const isDark = document.documentElement.classList.contains('dark');
-        setIsDarkMode(isDark);
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      router.push("/login");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
-        const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)');
-        if (!isDark && darkModePreference.matches) {
-            setIsDarkMode(true);
-            document.documentElement.classList.add('dark');
-        }
-    }, [router, supabase.auth]);
-
-    const toggleMode = () => {
-        setIsDarkMode(!isDarkMode);
-        document.documentElement.classList.toggle('dark');
-    };
-
-    const handleSignOut = async () => {
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (error) throw error;
-            router.push('/login');
-        } catch (error) {
-            console.error('Error signing out:', error);
-        }
-    };
-
-    return (
-        <div className="fixed top-4 left-4 z-10">
-            {/* Hamburger Button */}
-            <button
-                className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={() => setMenuOpen(!menuOpen)}
+  return (
+    <header className="flex h-20 w-full items-center px-4 md:px-6 bg-white dark:bg-gray-950">
+      {/* Mobile Menu */}
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="lg:hidden">
+            <Menu className="h-6 w-6" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left">
+          <nav className="grid gap-4 py-6">
+            <Link href="/" prefetch={false} className="text-lg font-semibold">
+              Home
+            </Link>
+            {pathname === "/daily-log" && (
+              <Link href="/logs" prefetch={false} className="text-lg font-semibold">
+                Log Dashboard
+              </Link>
+            )}
+            {pathname === "/logs" && (
+              <Link href="/daily-log" prefetch={false} className="text-lg font-semibold">
+                Add Log
+              </Link>
+            )}
+            <Button
+              variant="outline"
+              onClick={handleSignOut}
+              className="flex items-center gap-2 text-lg"
             >
-                {/* Icon for the hamburger */}
-                <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 6h16M4 12h16M4 18h16"
-                    />
-                </svg>
-            </button>
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
+          </nav>
+        </SheetContent>
+      </Sheet>
 
-            {/* Navigation Menu */}
-            <nav
-                className={`${menuOpen ? 'block' : 'hidden'
-                    } md:flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4`}
-            >
-                {/* Home Button */}
-                <Link href="/" passHref>
-                    <Button variant="outline" className="w-full md:w-auto">
-                        ← Home
-                    </Button>
-                </Link>
-                {/* Log Dashboard Button */}
-                {pathname === '/daily-log' && (
-                    <Link href="/logs" passHref>
-                        <Button variant="outline" className="flex items-center gap-2 w-full md:w-auto">
-                            <Gauge className="h-4 w-4" />
-                            Log Dashboard
-                        </Button>
-                    </Link>
-                )}
-                {/* Add Log Button */}
-                {pathname === '/logs' && (
-                    <Link href="/daily-log" passHref>
-                        <Button variant="outline" className="flex items-center gap-2 w-full md:w-auto">
-                            <span>+</span>
-                            Add Log
-                        </Button>
-                    </Link>
-                )}
-                {/* Sign Out Button */}
-                {pathname === '/daily-log' || pathname === '/logs' && (<Button
-                    variant="outline"
-                    onClick={handleSignOut}
-                    className="flex items-center gap-2 w-full md:w-auto"
-                >
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
-                </Button>
-                )}
-                {/* Toggle Mode Button */}
-                <div className="flex items-center space-x-2 w-full md:w-auto md:fixed md:top-4 md:right-4">
-                    <ModeToggle />
-                </div>
-            </nav>
-        </div>
-    );
-};
+      {/* Logo */}
+      <Link href="/" prefetch={false} className="hidden lg:flex items-center">
+        <HomeIcon className="h-6 w-6" />
+        <span className="sr-only">Home</span>
+      </Link>
 
-export default NavBar;
+      {/* Desktop Nav */}
+      <nav className="ml-auto hidden lg:flex items-center gap-6">
+        {pathname === "/daily-log" && (
+          <Link
+            href="/logs"
+            prefetch={false}
+            className="group inline-flex h-9 items-center rounded-md bg-white px-4 py-2 text-sm font-medium hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800"
+          >
+            Log Dashboard
+          </Link>
+        )}
+        {pathname === "/logs" && (
+          <Link
+            href="/daily-log"
+            prefetch={false}
+            className="group inline-flex h-9 items-center rounded-md bg-white px-4 py-2 text-sm font-medium hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800"
+          >
+            Add Log
+          </Link>
+        )}
+        {pathname === "/logs" || pathname === "/daily-log" && (<Button
+          variant="outline"
+          onClick={handleSignOut}
+          className="flex items-center gap-2 h-9 text-sm font-medium"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </Button>
+         )}
+        {/* Mode Toggle */}
+        <ModeToggle />
+      </nav>
+    </header>
+  );
+}
+ 
