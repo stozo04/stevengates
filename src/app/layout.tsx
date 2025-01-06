@@ -7,6 +7,7 @@ import Provider from "@/components/DarkMode/Provider/Provider";
 import { Suspense } from "react";
 import Loading from "./loading";
 import ColorSwitcher from "@/components/Shared/ColorPalettes/ColorSwitcher";
+import GoogleAnalytics from "@/components/Shared/Google/googleAnalytics";
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
               <ColorSwitcher />
             </Suspense>
           </Bootstrap>
+          <GoogleAnalytics />
         </Provider>
       </body>
     </html>
