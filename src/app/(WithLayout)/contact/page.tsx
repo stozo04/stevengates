@@ -1,6 +1,7 @@
 import FadeDown from "@/components/motionEffect/FadeDown";
 import GetInTouch from "@/components/Pages/Contact/GetInTouch";
 import Footer from "@/components/Shared/Footer/Footer";
+import MapEmbed from "@/components/Shared/Google/MapEmbed";
 import Link from "next/link";
 import {
   PiCompass,
@@ -113,13 +114,9 @@ const Contact = () => {
           </FadeDown>
 
           <FadeDown>
-            <div data-aos="zoom-in" className="mt-8 mt-md-15">
-              <iframe
-               src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJS5dFe_cZTIYRj2dH9qSb7Lk&key=AIzaSyCGY9OPma6HK_PeAo1sXPHGJzoOfVRPuhE"
-               loading="lazy"
-                className="w-100 h-400 border-0"
-              ></iframe>
-            </div>
+            
+            <MapEmbed />
+            
           </FadeDown>
         </div>
       </section>
