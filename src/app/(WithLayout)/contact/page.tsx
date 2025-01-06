@@ -5,15 +5,11 @@ import MapEmbed from "@/components/Shared/Google/MapEmbed";
 import Link from "next/link";
 import {
   PiCompass,
-  PiDeviceMobileCamera,
   PiEnvelopeOpen,
   PiFacebookLogo,
   PiGithubLogo,
-  PiInstagramLogo,
   PiLinkedinLogo,
-  PiStackOverflowLogo,
   PiXLogo,
-  PiYoutubeLogo,
 } from "react-icons/pi";
 
 const Contact = () => {
@@ -114,9 +110,7 @@ const Contact = () => {
           </FadeDown>
 
           <FadeDown>
-            
             <MapEmbed />
-            
           </FadeDown>
         </div>
       </section>
