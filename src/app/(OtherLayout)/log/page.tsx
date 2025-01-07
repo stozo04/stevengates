@@ -109,32 +109,32 @@ const Log = () => {
                             <div className="d-flex align-items-center gap-2 py-3">
                                 <input
                                     type="checkbox"
-                                    id="panic_attack"
-                                    name="panic_attack"
+                                    id="used_medication"
+                                    name="used_medication"
                                     checked={formData.used_medication}
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="panic_attack" className="n4-color fs-eight cursor-pointer">Used Emergency Medication?</label>
+                                <label htmlFor="used_medication" className="n4-color fs-eight cursor-pointer">Used Emergency Medication?</label>
                             </div>
                             <div className="d-flex align-items-center gap-2 py-3">
                                 <input
                                     type="checkbox"
-                                    id="panic_attack"
-                                    name="panic_attack"
+                                    id="went_to_gym"
+                                    name="went_to_gym"
                                     checked={formData.went_to_gym}
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="panic_attack" className="n4-color fs-eight cursor-pointer">Went to Gym?</label>
+                                <label htmlFor="went_to_gym" className="n4-color fs-eight cursor-pointer">Went to Gym?</label>
                             </div>
                             <div className="d-flex align-items-center gap-2 py-3">
                                 <input
                                     type="checkbox"
-                                    id="panic_attack"
-                                    name="panic_attack"
+                                    id="had_sex"
+                                    name="had_sex"
                                     checked={formData.had_sex}
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="panic_attack" className="n4-color fs-eight cursor-pointer">Had Sex?</label>
+                                <label htmlFor="had_sex" className="n4-color fs-eight cursor-pointer">Had Sex?</label>
                             </div>
                             <div className="py-3">
                                 <label className="shadow-sm fs-eight fw-medium n5-color mb-3 mb-md-5">Mood:</label>
