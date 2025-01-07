@@ -1,9 +1,7 @@
 "use client";
-import { useState } from "react";
-import Image, { StaticImageData } from "next/image";
-
+import Image from "next/image";
 const AwardModal = ({ award }: { award: any; onClose: () => void }) => {
-    console.log(award);
+    console.log('award: ', award);
     if (!award) return null; // Render nothing if no award is selected
 
   return (
@@ -34,9 +32,10 @@ const AwardModal = ({ award }: { award: any; onClose: () => void }) => {
         <Image
             src={award.image}
             alt={award.title}
-            width={500} // Replace with actual dimensions
-            height={300} // Replace with actual dimensions
-            style={{ objectFit: "cover" }}
+            placeholder="blur" // Automatically generates blurDataURL
+            width={800}
+            height={800}
+           
             />
         </div>
       </div>

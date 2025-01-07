@@ -13,7 +13,7 @@ const AwardModalCard = ({
 
 }) => {
   const { count, increment, discrement } = useCounter();
-  
+  console.log('img', img)
   return (
     <div className="d-flex gap-2 align-items-center justify-content-between mb-3 mb-md-4">
       <div className="d-flex gap-4 align-items-center">

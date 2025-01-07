@@ -2,13 +2,18 @@
 import { useState } from "react";
 import { PiTrophy } from "react-icons/pi";
 import AwardModal from "@/components/Shared/Modal/AwardModal";
+import mcsa from "@/../public/images/mcsa.jpg";
+import mcsd from "@/../public/images/mcsd.jpg";
+import cs50 from "@/../public/images/cs50-award.jpg";
+import { StaticImageData } from "next/image";
+
 
 const AwardsSection = () => {
     type Award = {
         id: number;
         title: string;
         year: string;
-        image: string;
+        image: StaticImageData;
     };
     const [selectedAward, setSelectedAward] = useState<Award | null>(null);
     const handleOpenModal = (award: any) => {
@@ -19,10 +24,9 @@ const AwardsSection = () => {
         setSelectedAward(null);
     };
     const awardsData = [
-        { id: 1, title: "CS50 Introduction to AI with Python", year: "2024", image: "/images/cs50-award.jpg" },
-        { id: 2, title: "Microsoft Certified Professional", year: "2019", image: "/images/mcp-award.jpg" },
-        { id: 3, title: "Microsoft Certified Solutions Associate", year: "2018", image: "/images/mcsa-award.jpg" },
-        { id: 4, title: "Microsoft Certified Solutions Developer", year: "2017", image: "/images/mcsd-award.jpg" },
+        { id: 1, title: "CS50 Introduction to AI with Python", year: "2024", image: cs50 },
+        { id: 2, title: "Microsoft Certified Solutions Developer", year: "2018", image: mcsd },
+        { id: 3, title: "Microsoft Certified Solutions Associate", year: "2018", image: mcsa }
     ];
 
     return (
@@ -48,21 +52,6 @@ const AwardsSection = () => {
                         <span className="n4-color fs-eleven">{award.year}</span>
                     </div>
                 </div>
-
-                // <div
-                //   key={award.id}
-                //   className="d-flex gap-2 mb-3 mb-md-5"
-                //   style={{ cursor: "pointer" }}
-                //   onClick={() => handleOpenModal(award)}
-                // >
-                //   <i className="fs-six p1-color">
-                //     <PiTrophy />
-                //   </i>
-                //   <div>
-                //     <span className="n4-color fs-seven">{award.title}</span>
-                //     <span className="n4-color fs-eleven">{award.year}</span>
-                //   </div>
-                // </div>
             ))}
 
             {/* Dynamic Modal */}

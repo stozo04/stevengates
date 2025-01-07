@@ -6,7 +6,7 @@ import FadeDown from "@/components/motionEffect/FadeDown";
 
 const Featured = () => {
   return (
-    <section className="pt-120 pb-120 br-bottom-n3">
+    <section className="pt-120 pb-120">
       <div className="container">
         <FadeDown>
           <div className="d-flex gap-3 flex-wrap flex-xxl-nowrap justify-content-between align-items-end mb-8 mb-md-15">

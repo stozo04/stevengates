@@ -15,6 +15,7 @@ import Footer from "@/components/Shared/Footer/Footer";
 import CartModal from "@/components/Shared/Modal/CartModal";
 import AwardModal from "@/components/Shared/Modal/AwardModal";
 import AwardsSection from "@/components/Pages/Resume/AwardSection";
+import { IoOpenOutline } from "react-icons/io5";
 
 const Resume = () => {
   return (
@@ -186,7 +187,18 @@ const Resume = () => {
                       <span className="n5-color fs-six fw-medium">
                         Mila Gates
                       </span>
-                      <span className="n42-color fs-eight">Open Source</span>
+                      
+                      <span className="n42-color fs-eight">
+                      <Link
+                        href="milagates.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="d-flex gap-2 align-items-center n4-color"
+                      >
+                        <IoOpenOutline />
+                        View
+                      </Link>
+                      </span>
                     </div>
                     <p className="n42-color fs-seven">
                       Mila Gates website celebrates my daughter milestones and growth through heartfelt blogs and narratives.
@@ -198,7 +210,15 @@ const Resume = () => {
                       <span className="n5-color fs-six fw-medium">
                         Shiny Stacks
                       </span>
-                      <span className="n4-color fs-eight">Open Source</span>
+                      <Link
+                        href="shinystacks.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="d-flex gap-2 align-items-center n4-color"
+                      >
+                        <IoOpenOutline />
+                        View
+                      </Link>
                     </div>
                     <p className="n4-color fs-seven">
                       A comprehensive US coin collection website showcasing a diverse range of Silver, Gold, and Copper coins.
@@ -212,6 +232,30 @@ const Resume = () => {
                 {/* <!-- right side  --> */}
                 <div className="col-md-4 col-lg-12 col-xl-4 col-xxl-3">
                   <div className="ps-4 ps-xxl-7 br-left-n3 mt-5 mt-md-0">
+                    {/* <!-- education  --> */}
+                    <div className="mb-8 mb-md-15">
+                      <div className="d-flex align-items-center gap-2 mb-3 mb-md-6">
+                        <div className="title-line2"></div>
+                        <h2 className="fs-three p1-color fw-semibold">
+                          Education
+                        </h2>
+                      </div>
+                      <div className="d-flex gap-2 mb-3 mb-md-5">
+                        <i className="fs-six p1-color">
+                          <PiGraduationCap />
+                        </i>
+                        <div>
+                          <span className="n4-color fs-seven">
+                            BBA in Mangement Information System - Texas Tech University
+                          </span>
+                          <span className="n4-color fs-eleven">
+                            2008 - 2011
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <!-- awards  --> */}
+                    <AwardsSection />
                     {/* <!-- skills  --> */}
                     <div className="mb-8 mb-md-15">
                       <div className="d-flex align-items-center gap-2 mb-5 mb-md-10">
@@ -263,31 +307,6 @@ const Resume = () => {
                         </ul>
                       </div>
                     </div>
-
-                    {/* <!-- education  --> */}
-                    <div className="mb-8 mb-md-15">
-                      <div className="d-flex align-items-center gap-2 mb-3 mb-md-6">
-                        <div className="title-line2"></div>
-                        <h2 className="fs-three p1-color fw-semibold">
-                          Education
-                        </h2>
-                      </div>
-                      <div className="d-flex gap-2 mb-3 mb-md-5">
-                        <i className="fs-six p1-color">
-                          <PiGraduationCap />
-                        </i>
-                        <div>
-                          <span className="n4-color fs-seven">
-                            BBA in Mangement Information System - Texas Tech University
-                          </span>
-                          <span className="n4-color fs-eleven">
-                            2008 - 2011
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    {/* <!-- awards  --> */}
-                    <AwardsSection />
                     {/* <!-- Languages  --> */}
                     <div className="mb-8 mb-md-15">
                       <div className="d-flex align-items-center gap-2 mb-3 mb-md-6">

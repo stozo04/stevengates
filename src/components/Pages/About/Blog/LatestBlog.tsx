@@ -30,11 +30,11 @@ const LatestBlog = () => {
             </Link>
           </div>
         </FadeDown>
-        <div className="row g-5 g-md-10 ">
+        {/* <div className="row g-5 g-md-10 ">
           {blogs.slice(0, 1).map(({ id, img, date, tag, title }) => (
             <BlogCard key={id} img={img} date={date} tag={tag} title={title} />
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );
