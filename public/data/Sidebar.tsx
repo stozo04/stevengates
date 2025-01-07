@@ -1,11 +1,11 @@
 import { AiOutlineDashboard } from "react-icons/ai";
+import { IoAddCircleOutline } from "react-icons/io5";
 import {
   PiCodeBlock,
   PiCodeBlockFill,
   PiEnvelope,
   PiEnvelopeFill,
   PiNewspaperClipping,
-  PiNewspaperClippingFill,
   PiNotebook,
   PiNotebookFill,
   PiUser,
@@ -46,6 +46,12 @@ export const sidebarsData = [
   },
   {
     id: 6,
+    name: "Log",
+    url: "/log",
+    icon: <IoAddCircleOutline />
+  },
+  {
+    id: 7,
     name: "Dashboard",
     url: "/dashboard",
     icon: <AiOutlineDashboard />,
@@ -73,20 +79,20 @@ export const bottomNavData = [
   },
   {
     id: 4,
-    name: "Dashboard",
-    url: "/dashboard",
-    icon: <AiOutlineDashboard />,
-  },
-  {
-    id: 5,
-    name: "Blog",
-    url: "/blog",
-    icon: <PiNewspaperClippingFill />,
-  },
-  {
-    id: 6,
     name: "Contact",
     url: "/contact",
     icon: <PiEnvelopeFill />,
+  },
+  {
+    id: 5,
+    name: "Log",
+    url: "/log",
+    icon: <IoAddCircleOutline />
+  },
+  {
+    id: 6,
+    name: "Dashboard",
+    url: "/dashboard",
+    icon: <AiOutlineDashboard />,
   },
 ];

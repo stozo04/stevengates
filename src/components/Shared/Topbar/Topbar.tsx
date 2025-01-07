@@ -61,14 +61,6 @@ const Topbar = () => {
       </Link>
 
       <div className="d-flex gap-3 align-items-center">
-        <Link href="/dashboard" className="position-relative">
-          <div className="side-icon bg1-color">
-            <i className="ph ph-shopping-cart n11-color">
-              <AiOutlineDashboard />
-            </i>
-          </div>
-        </Link>
-
         <div className="side-icon bg1-color">
           <ThemeButton />
         </div>
