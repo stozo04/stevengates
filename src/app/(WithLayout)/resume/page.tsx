@@ -190,7 +190,7 @@ const Resume = () => {
                       
                       <span className="n42-color fs-eight">
                       <Link
-                        href="milagates.com"
+                        href="https://milagates.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="d-flex gap-2 align-items-center n4-color"
@@ -211,7 +211,7 @@ const Resume = () => {
                         Shiny Stacks
                       </span>
                       <Link
-                        href="shinystacks.com"
+                        href="https://www.shinystacks.com/home"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="d-flex gap-2 align-items-center n4-color"
