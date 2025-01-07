@@ -1,6 +1,9 @@
 "use client";
 
+import FadeDown from '@/components/motionEffect/FadeDown';
 import { createBrowserClient } from '@supabase/ssr'
+import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginPage() {
 
@@ -30,14 +33,21 @@ export default function LoginPage() {
   return (
     <div>
       {/* Main content */}
-      <div className="flex items-center justify-center min-h-screen">
-        <button
-          onClick={handleGoogleLogin}
-          className="bg-blue-500 text-white py-2 px-4 rounded border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150"
-        >
-          <span>Login with Google</span>
-        </button>
-      </div>
+      <section className="pt-120 pb-120 mt-10 mt-lg-0">
+        <FadeDown>
+        <div className="d-flex justify-content-center gap-2 align-items-center mt-4">
+        <Link
+              href="#"
+              onClick={handleGoogleLogin}
+              className="p-btn bg1-color fw-medium n11-color px-3 px-md-6 py-2 py-md-4 rounded-pill d-flex align-items-center gap-2 h-100 text-nowrap"
+            >
+              <FcGoogle />
+              Continue with Google
+            </Link>
+          </div>
+      </FadeDown>
+    </section>
     </div>
+      
   );
 }
