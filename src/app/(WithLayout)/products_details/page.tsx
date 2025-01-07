@@ -29,7 +29,7 @@ const ProductDetails = () => {
   return (
     <div className="container">
       <ProductDetailsBanner />
-      <section className="pt-60">
+      {/* <section className="pt-60">
         <div className="row g-3 g-md-6">
           {cardsData.map(({ id, heading }: { id: number; heading: string }) => (
             <div key={id} className="col-sm-6 col-xl-4 col-xxl-3">
@@ -44,10 +44,10 @@ const ProductDetails = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
-      <ProductDetailsDescriptiion />
-
+      {/* <ProductDetailsDescriptiion /> */}
+{/* 
       <section className="pb-120">
         <h3 className="fs-two n5-color mb-5 mb-md-10">
           Check out similar products
@@ -63,7 +63,7 @@ const ProductDetails = () => {
             />
           ))}
         </div>
-      </section>
+      </section> */}
       <Footer />
       <CartModal />
     </div>

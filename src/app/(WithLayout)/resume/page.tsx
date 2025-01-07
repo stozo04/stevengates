@@ -12,6 +12,10 @@ import {
 } from "react-icons/pi";
 import FadeDown from "@/components/motionEffect/FadeDown";
 import Footer from "@/components/Shared/Footer/Footer";
+import CartModal from "@/components/Shared/Modal/CartModal";
+import AwardModal from "@/components/Shared/Modal/AwardModal";
+import AwardsSection from "@/components/Pages/Resume/AwardSection";
+
 const Resume = () => {
   return (
     <div>
@@ -59,16 +63,21 @@ const Resume = () => {
                     </li> */}
                     <li>
                       <Link
-                        href="mailto:someone@example.com"
+                        href="mailto:gates.steven@gmail.com"
                         className="d-flex gap-2 align-items-center n4-color"
                       >
                         <PiEnvelopeSimple />
                         gates.steven@gmail.com
                       </Link>
                     </li>
-                    <li className="d-flex gap-2 align-items-center n4-color">
-                      <PiGlobe />
-                      www.stevengates.io
+                    <li>
+                      <Link
+                        href="https://github.com/stozo04"
+                        className="d-flex gap-2 align-items-center n4-color"
+                      >
+                        <PiGlobe />
+                        Github
+                      </Link>
                     </li>
                     <li className="d-flex gap-2 align-items-center n4-color">
                       <PiMapPin />
@@ -89,12 +98,12 @@ const Resume = () => {
                   />
                 </div> */}
                 <p className="n42-color fs-seven">
-                Senior Software Engineer with over a decade of experience designing and delivering scalable, cloud-based solutions for large-scale applications. 
-                Proven expertise in AWS, Azure, .NET, C#, SQL, and JavaScript, with a strong track record of leading teams to success. 
-                Key accomplishments include architecting and managing communityarchives.com, a microservices-driven platform generating $100M+ annually with 50,000+ users, 
-                and developing award-winning hydro monitoring systems serving millions across Texas. 
-                Adept at mentoring, optimizing workflows, and collaborating with senior leadership to drive innovation. 
-                Passionate about crafting efficient, user-focused solutions while leveraging modern technologies to achieve exceptional results in complex software ecosystems.
+                  Senior Software Engineer with over a decade of experience designing and delivering scalable, cloud-based solutions for large-scale applications.
+                  Proven expertise in AWS, Azure, .NET, C#, SQL, and JavaScript, with a strong track record of leading teams to success.
+                  Key accomplishments include architecting and managing communityarchives.com, a microservices-driven platform generating $100M+ annually with 50,000+ users,
+                  and developing award-winning hydro monitoring systems serving millions across Texas.
+                  Adept at mentoring, optimizing workflows, and collaborating with senior leadership to drive innovation.
+                  Passionate about crafting efficient, user-focused solutions while leveraging modern technologies to achieve exceptional results in complex software ecosystems.
                 </p>
               </div>
 
@@ -118,19 +127,19 @@ const Resume = () => {
                     </div>
                     <ul className="d-flex flex-column gap-3 ms-6 ms-lg-10">
                       <li className="n42-color fs-seven">
-                      Leading a team of 10 to architect, implement and deliver communityarchives.com (an all-in-one digital solution to manage the entire real estate process) from scratch; Launched the service in 2019 and now the service has 50,000+ users and generates a cash flow of $100+ million USD per year.
+                        Leading a team of 10 to architect, implement and deliver communityarchives.com (an all-in-one digital solution to manage the entire real estate process) from scratch; Launched the service in 2019 and now the service has 50,000+ users and generates a cash flow of $100+ million USD per year.
                       </li>
                       <li className="n42-color fs-seven">
-                      Designing the end to end workflow and data infrastructure for the Management portal with Angular, JavaScript, .NET,  C#,  GraphQL,  AWS  (DynamoDB,  RDS,  Aurora,  Lambda,  S3,  EventBridge,  API  Gate- way) for 50,000+ users to check and manage their home buying/selling process (such as paperwork, permits and external contractor work); Integrating Stripe for payment processing and implementing a throttling and data aggregation flow to generate 15+ different types of reports (such as revenue reports and outstanding collections).
+                        Designing the end to end workflow and data infrastructure for the Management portal with Angular, JavaScript, .NET,  C#,  GraphQL,  AWS  (DynamoDB,  RDS,  Aurora,  Lambda,  S3,  EventBridge,  API  Gate- way) for 50,000+ users to check and manage their home buying/selling process (such as paperwork, permits and external contractor work); Integrating Stripe for payment processing and implementing a throttling and data aggregation flow to generate 15+ different types of reports (such as revenue reports and outstanding collections).
                       </li>
                       <li className="n42-color fs-seven">
-                      Architecting the Internal and Marketplace web portals to handle institution-specific needs (jurisdictions, licenses) and to showcase products for 100,000+ locations across the US using Angular, .NET, C#, GraphQL, AWS and Elasticsearch.
+                        Architecting the Internal and Marketplace web portals to handle institution-specific needs (jurisdictions, licenses) and to showcase products for 100,000+ locations across the US using Angular, .NET, C#, GraphQL, AWS and Elasticsearch.
                       </li>
                       <li className="n42-color fs-seven">
-                      Collaborating and communicating with senior leadership to identify and drive product visions and opportunities.
+                        Collaborating and communicating with senior leadership to identify and drive product visions and opportunities.
                       </li>
                       <li className="n42-color fs-seven">
-                      Mentoring a team of 5 to increase their technical skills in areas such as design patterns, programming best practices, debugging tools and troubleshooting.
+                        Mentoring a team of 5 to increase their technical skills in areas such as design patterns, programming best practices, debugging tools and troubleshooting.
                       </li>
                     </ul>
                   </div>
@@ -140,21 +149,21 @@ const Resume = () => {
                         Lead Software Developer
                       </span>
                       <span className="n4-color fs-eight">
-                      Halff Associates | 2015 - 2019
+                        Halff Associates | 2015 - 2019
                       </span>
                     </div>
                     <ul className="d-flex flex-column gap-3 ms-6 ms-lg-10">
                       <li className="n42-color fs-seven">
-                      Architected and implemented an award-winning hydro monitoring and billing platform (C#, .NET, Azure, Google Charts, JavaScript, JQuery, SQL Server) to process hydro bills for the 2.1 million people of Tarrant County in Texas; Integrated with ESRI GIS and Quickbook to collect water usage and manage charges/payments; Won various awards across Texas counties and the 1st award ever for the company of 25k+ people.
+                        Architected and implemented an award-winning hydro monitoring and billing platform (C#, .NET, Azure, Google Charts, JavaScript, JQuery, SQL Server) to process hydro bills for the 2.1 million people of Tarrant County in Texas; Integrated with ESRI GIS and Quickbook to collect water usage and manage charges/payments; Won various awards across Texas counties and the 1st award ever for the company of 25k+ people.
                       </li>
                       <li className="n42-color fs-seven">
-                      Designed the core server-side components for a groundwater management system used by 10 counties (population of 10 million+ people) across Texas; Developed the data storage infrastructure and RESTful APIs for UI dashboards, files/reports and business operations.
+                        Designed the core server-side components for a groundwater management system used by 10 counties (population of 10 million+ people) across Texas; Developed the data storage infrastructure and RESTful APIs for UI dashboards, files/reports and business operations.
                       </li>
                       <li className="n42-color fs-seven">
-                      Proposed, researched and implemented a website with C#, .NET Core, MVC, Web API, Vue.js and SQL Server for 10,000+ field technicians to track personnel movements and certain areas (such as hard to see oil wells) by simply dropping a marker on the map.
+                        Proposed, researched and implemented a website with C#, .NET Core, MVC, Web API, Vue.js and SQL Server for 10,000+ field technicians to track personnel movements and certain areas (such as hard to see oil wells) by simply dropping a marker on the map.
                       </li>
                       <li className="n42-color fs-seven">
-                      Designed and developed a web application (C#, .NET, MVC, Bootstrap, JavaScript, SQL Server) for the 25k+ employees at Halff Associates to register and manage career-related services such as trainings, seminars and certificates.
+                        Designed and developed a web application (C#, .NET, MVC, Bootstrap, JavaScript, SQL Server) for the 25k+ employees at Halff Associates to register and manage career-related services such as trainings, seminars and certificates.
                       </li>
                     </ul>
                   </div>
@@ -165,11 +174,11 @@ const Resume = () => {
                   <div className="mb-4 mb-md-6">
                     <div className="d-flex flex-wrap gap-1 gap-sm-3 justify-content-between align-items-center mb-2 mb-md-4">
                       <span className="n5-color fs-six fw-medium">
-                      Gatesflix
+                        Gatesflix
                       </span>
                     </div>
                     <p className="n42-color fs-seven">
-                    Developed a local streaming platform resembling Netflix, hosting 2000+ purchased movies, using C#, .NET, and MVC. Integrated IMDb for movie ratings and utilized Synology NAS with VLC for seamless video encoding and streaming, creating a personalized, high-quality entertainment experience.
+                      Developed a local streaming platform resembling Netflix, hosting 2000+ purchased movies, using C#, .NET, and MVC. Integrated IMDb for movie ratings and utilized Synology NAS with VLC for seamless video encoding and streaming, creating a personalized, high-quality entertainment experience.
                     </p>
                   </div>
                   <div className="mb-4 mb-md-6">
@@ -180,7 +189,8 @@ const Resume = () => {
                       <span className="n42-color fs-eight">Open Source</span>
                     </div>
                     <p className="n42-color fs-seven">
-                    Mila Gates website celebrates her milestones and growth through heartfelt blogs and narratives. Designed with warmth and reflection, it connects everyday moments to larger themes of family and love. The platform offers a unique, nostalgic design inspired by 90s aesthetics, providing a personal and visually engaging experience for readers and visitors.
+                      Mila Gates website celebrates my daughter milestones and growth through heartfelt blogs and narratives.
+                      Designed with warmth and reflection, it connects everyday moments to larger themes of family and love.
                     </p>
                   </div>
                   <div>
@@ -191,7 +201,10 @@ const Resume = () => {
                       <span className="n4-color fs-eight">Open Source</span>
                     </div>
                     <p className="n4-color fs-seven">
-                    A comprehensive US coin collection website showcasing a diverse range of Silver, Gold, and Copper coins. Designed for collectors to explore and track their collection, it features detailed information, high-quality visuals, and categorization by material and rarity, offering an engaging platform for enthusiasts to manage and appreciate their numismatic treasures.
+                      A comprehensive US coin collection website showcasing a diverse range of Silver, Gold, and Copper coins.
+                      Designed for collectors to explore and track their collection, it features detailed information, 
+                      high-quality visuals, and categorization by material and rarity, offering an engaging platform for
+                      enthusiasts to manage and appreciate their numismatic treasures.
                     </p>
                   </div>
                 </div>
@@ -232,7 +245,6 @@ const Resume = () => {
                           </li>
                         </ul>
                       </div>
-
                       <div>
                         <h5 className="fs-six n5-color fw-medium mb-2 mb-md-4">
                           Professional
@@ -275,58 +287,7 @@ const Resume = () => {
                       </div>
                     </div>
                     {/* <!-- awards  --> */}
-                    <div className="mb-8 mb-md-15">
-                      <div className="d-flex align-items-center gap-2 mb-3 mb-md-6">
-                        <div className="title-line2"></div>
-                        <h2 className="fs-three p1-color fw-semibold">
-                          Awards
-                        </h2>
-                      </div>
-                      <div className="d-flex gap-2 mb-3 mb-md-5">
-                        <i className=" fs-six p1-color">
-                          <PiTrophy />
-                        </i>
-                        <div>
-                          <span className="n4-color fs-seven">
-                          	CS50 Introduction to AI with Python
-                          </span>
-                          <span className="n4-color fs-eleven">2024</span>
-                        </div>
-                      </div>
-                      <div className="d-flex gap-2 mb-3 mb-md-5">
-                        <i className=" fs-six p1-color">
-                          <PiTrophy />
-                        </i>
-                        <div>
-                          <span className="n4-color fs-seven">
-                          	Microsoft Certified Professional 
-                          </span>
-                          <span className="n4-color fs-eleven">2019</span>
-                        </div>
-                      </div>
-                      <div className="d-flex gap-2">
-                        <i className=" fs-six p1-color">
-                          <PiTrophy />
-                        </i>
-                        <div>
-                          <span className="n4-color fs-seven">
-                          Microsoft Certified Solutions Associate 
-                          </span>
-                          <span className="n4-color fs-eleven">2018</span>
-                        </div>
-                      </div>
-                      <div className="d-flex gap-2">
-                        <i className=" fs-six p1-color">
-                          <PiTrophy />
-                        </i>
-                        <div>
-                          <span className="n4-color fs-seven">
-                          	Microsoft Certified Solutions Developer 
-                          </span>
-                          <span className="n4-color fs-eleven">2017</span>
-                        </div>
-                      </div>
-                    </div>
+                    <AwardsSection />
                     {/* <!-- Languages  --> */}
                     <div className="mb-8 mb-md-15">
                       <div className="d-flex align-items-center gap-2 mb-3 mb-md-6">
@@ -383,7 +344,7 @@ const Resume = () => {
                     </i>
                   </div>
                   <span className="fs-eight n4-color">
-                  @gates-steven
+                    @gates-steven
 
                   </span>
                 </Link>
@@ -404,6 +365,7 @@ const Resume = () => {
         </div>
       </section>
       <Footer />
+      
     </div>
   );
 };

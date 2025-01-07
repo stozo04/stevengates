@@ -99,7 +99,7 @@ const Contact = () => {
                     Email
                   </span>
                   <Link
-                    href="mailto:someone@example.com"
+                    href="mailto:gates.steven@gmail.com"
                     className="n4-color fs-nine"
                   >
                     gates.steven@gmail.com
