@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { createBrowserClient } from "@supabase/ssr";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import ProtectedPage from "@/components/Shared/ProtectedPage/ProtectedPage";
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface DailyLog {
   id: number;
@@ -30,9 +35,9 @@ const DailyLogPage = () => {
     const fetchLogs = async () => {
       try {
         const { data, error } = await supabase
-          .from<string, DailyLog[]>("daily_logs") // Specify both type arguments
+          .from("daily_logs")
           .select("*")
-          .order("date", { ascending: false });
+          .order("date", { ascending: true });
 
         if (error) throw error;
 
@@ -49,30 +54,58 @@ const DailyLogPage = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
+  // Prepare data for the graph
+  const graphData = {
+    labels: logs.map((log) => format(new Date(`${log.date}T00:00:00`), "MM-dd-yyyy")),
+    datasets: [
+      {
+        label: "Anxiety Level",
+        data: logs.map((log) => (log.anxiety_level ? parseInt(log.anxiety_level) : 0)),
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const graphOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Daily Anxiety Levels (Scale 1-10)",
+      },
+    },
+    scales: {
+      y: {
+        min: 1,
+        max: 10,
+        ticks: {
+          stepSize: 1,
+        },
+      },
+    },
+  };
+
   return (
-    <div>
+    <div className="d-flex justify-content-center align-items-center vh-100 text-center">
       <ProtectedPage>
-        {/* Logs Table */}
-        <div className="p-4">
-          <form className="max-w-lg mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 space-y-6 mt-8">
-            <h1 className="text-2xl font-bold">Daily Logs</h1>
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr>
-                  <th className="border px-4 py-2">Date</th>
-                  <th className="border px-4 py-2">Anxiety Level</th>
-                </tr>
-              </thead>
-              <tbody>
-                {logs.map((log) => (
-                  <tr key={log.id}>
-                    <td className="border px-4 py-2">  {format(new Date(`${log.date}T00:00:00`), 'MM-dd-yyyy')}</td>
-                    <td className="border px-4 py-2">{log.anxiety_level || "N/A"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </form>
+        {/* Anxiety Level Graph */}
+        <div style={{ width: "75%", margin: "0 auto", textAlign: "center", height: "auto" }}>
+          <h2 className="fs-one fw-semibold n5-color mb-2 mb-md-4">Anxiety Level</h2>
+          <div style={{ height: "400px" }}> {/* Explicit height to prevent infinite scroll */}
+            <Line
+              data={graphData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+              }}
+            />
+          </div>
         </div>
       </ProtectedPage>
     </div>
