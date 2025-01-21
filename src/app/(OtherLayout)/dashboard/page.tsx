@@ -64,31 +64,15 @@ const DailyLogPage = () => {
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderWidth: 2,
+        pointBackgroundColor: logs.map(log => 
+          log.panic_attack ? 'rgba(255, 0, 0, 1)' : 'rgba(75, 192, 192, 1)'
+        ),
+        pointBorderColor: logs.map(log => 
+          log.panic_attack ? 'rgba(255, 0, 0, 1)' : 'rgba(75, 192, 192, 1)'
+        ),
+        pointRadius: 3,
       },
     ],
-  };
-
-  const graphOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Daily Anxiety Levels (Scale 1-10)",
-      },
-    },
-    scales: {
-      y: {
-        min: 1,
-        max: 10,
-        ticks: {
-          stepSize: 1,
-        },
-      },
-    },
   };
 
   return (
@@ -97,12 +81,33 @@ const DailyLogPage = () => {
         {/* Anxiety Level Graph */}
         <div style={{ width: "75%", margin: "0 auto", textAlign: "center", height: "auto" }}>
           <h2 className="fs-one fw-semibold n5-color mb-2 mb-md-4">Anxiety Level</h2>
-          <div style={{ height: "400px" }}> {/* Explicit height to prevent infinite scroll */}
+          <div style={{ height: "400px" }}>
             <Line
               data={graphData}
               options={{
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: "top" as const,
+                  },
+                  title: {
+                    display: true,
+                    text: "Daily Anxiety Levels (Scale 0-10)",
+                  },
+                },
+                scales: {
+                  y: {
+                    min: 0,
+                    max: 10,
+                    beginAtZero: true,
+                    ticks: {
+                      stepSize: 1,
+                      precision: 0,
+                    },
+                  },
+                },
               }}
             />
           </div>
