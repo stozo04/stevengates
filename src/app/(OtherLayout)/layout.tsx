@@ -1,8 +1,6 @@
 import ThemeButton from "@/components/DarkMode/ThemeButton/ThemeButton";
 import BottomNav from "@/components/Shared/BottomNav/BottomNav";
 import Link from "next/link";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { PiShoppingCart } from "react-icons/pi";
 
 export default function OtherLayout({
   children,
