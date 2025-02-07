@@ -14,7 +14,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [logs, setLogs] = useState<LogData[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string>(
+  const [viewType, setViewType] = useState<'month' | 'week'>('month');
+  const [selectedDate, setSelectedDate] = useState<string>(
     format(new Date(), "yyyy-MM")  // Current month in YYYY-MM format
   );
   const [selectedLog, setSelectedLog] = useState<LogData | null>(null);
@@ -45,15 +46,23 @@ const Dashboard = () => {
     fetchLogs();
   }, [supabase]);
 
-  // Filter logs based on selected month (update to handle null/empty selection)
-  const filteredLogs = selectedMonth 
+  // Update filtering logic to handle both month and week views
+  const filteredLogs = selectedDate 
     ? logs.filter(log => {
         const logDate = parseISO(log.date);
-        const monthStart = startOfMonth(parseISO(`${selectedMonth}-01`));
-        const monthEnd = endOfMonth(monthStart);
-        return logDate >= monthStart && logDate <= monthEnd;
+        if (viewType === 'month') {
+          const monthStart = startOfMonth(parseISO(`${selectedDate}-01`));
+          const monthEnd = endOfMonth(monthStart);
+          return logDate >= monthStart && logDate <= monthEnd;
+        } else {
+          // For week view, we'll treat the selected date as the start of the week
+          const weekStart = parseISO(selectedDate);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6);
+          return logDate >= weekStart && logDate <= weekEnd;
+        }
       })
-    : logs;  // If no month selected, show all logs
+    : logs;
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -116,16 +125,31 @@ const Dashboard = () => {
       <div style={{ width: "75%", margin: "0 auto", textAlign: "center", height: "auto" }}>
         <h2 className="fs-one fw-semibold n5-color mb-2 mb-md-4">Anxiety Level</h2>
         
-        {/* Month Selector with View All button */}
+        {/* View Type Toggle and Date Selector */}
         <div className="mb-4 d-flex justify-content-center align-items-center gap-2">
+          <div className="btn-group me-2">
+            <button 
+              className={`btn btn-outline-primary ${viewType === 'month' ? 'active' : ''}`}
+              onClick={() => setViewType('month')}
+            >
+              Month
+            </button>
+            <button 
+              className={`btn btn-outline-primary ${viewType === 'week' ? 'active' : ''}`}
+              onClick={() => setViewType('week')}
+            >
+              Week
+            </button>
+          </div>
+          
           <input
-            type="month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
+            type={viewType === 'month' ? 'month' : 'date'}
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
             className="form-control w-auto"
           />
           <button 
-            onClick={() => setSelectedMonth('')}
+            onClick={() => setSelectedDate('')}
             className="btn btn-outline-secondary"
           >
             View All
