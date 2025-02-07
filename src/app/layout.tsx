@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import ColorSwitcher from "@/components/Shared/ColorPalettes/ColorSwitcher";
 import GoogleAnalytics from "@/components/Shared/Google/googleAnalytics";
+import { Analytics } from "@vercel/analytics/react"
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Bootstrap>
             <Suspense fallback={<Loading />}>
               <div>{children}</div>
+              <Analytics />
               <ColorSwitcher />
             </Suspense>
           </Bootstrap>
