@@ -5,9 +5,15 @@ import LogForm from './LogForm';
 export default async function LogPage() {
     const supabase = await createClient();
     const { data: { user }, error } = await supabase.auth.getUser();
-    console.log('user:', user);
+    // Check if user is authenticated
     if (error || !user) {
         redirect('/login');
+    }
+
+    // Check for specific email address from environment variable
+    const allowedEmail = process.env.NEXT_PUBLIC_ALLOWED_EMAIL;
+    if (!allowedEmail || user.email !== allowedEmail) {
+        redirect('/unauthorized');
     }
 
     return (

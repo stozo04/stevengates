@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>(
     format(new Date(), "yyyy-MM")  // Current month in YYYY-MM format
   );
+  const [selectedLog, setSelectedLog] = useState<LogData | null>(null);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -77,58 +78,81 @@ const Dashboard = () => {
     ],
   };
 
-  return (
-    <div className="d-flex justify-content-center align-items-center vh-100 text-center">
-        <div style={{ width: "75%", margin: "0 auto", textAlign: "center", height: "auto" }}>
-          <h2 className="fs-one fw-semibold n5-color mb-2 mb-md-4">Anxiety Level</h2>
-          
-          {/* Month Selector with View All button */}
-          <div className="mb-4 d-flex justify-content-center align-items-center gap-2">
-            <input
-              type="month"
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-              className="form-control w-auto"
-            />
-            <button 
-              onClick={() => setSelectedMonth('')}
-              className="btn btn-outline-secondary"
-            >
-              View All
-            </button>
-          </div>
+  // Add click handler configuration to options
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Daily Anxiety Levels (Scale 0-10)",
+      },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 10,
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+          precision: 0,
+        },
+      },
+    },
+    onClick: (event: any, elements: any[]) => {
+      if (elements.length > 0) {
+        const dataIndex = elements[0].index;
+        setSelectedLog(filteredLogs[dataIndex]);
+      }
+    },
+  };
 
-          <div style={{ height: "400px" }}>
-            <Line
-              data={graphData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    display: true,
-                    position: "top" as const,
-                  },
-                  title: {
-                    display: true,
-                    text: "Daily Anxiety Levels (Scale 0-10)",
-                  },
-                },
-                scales: {
-                  y: {
-                    min: 0,
-                    max: 10,
-                    beginAtZero: true,
-                    ticks: {
-                      stepSize: 1,
-                      precision: 0,
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
+  return (
+    <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 text-center p-4">
+      <div style={{ width: "75%", margin: "0 auto", textAlign: "center", height: "auto" }}>
+        <h2 className="fs-one fw-semibold n5-color mb-2 mb-md-4">Anxiety Level</h2>
+        
+        {/* Month Selector with View All button */}
+        <div className="mb-4 d-flex justify-content-center align-items-center gap-2">
+          <input
+            type="month"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="form-control w-auto"
+          />
+          <button 
+            onClick={() => setSelectedMonth('')}
+            className="btn btn-outline-secondary"
+          >
+            View All
+          </button>
         </div>
+
+        <div style={{ height: "400px" }}>
+          <Line
+            data={graphData}
+            options={options}
+          />
+        </div>
+
+        {/* Add Details Card */}
+        {selectedLog && (
+          <div className="card mt-4 w-100">
+            <div className="card-body">
+              <h5 className="card-title">Log Details for {format(new Date(selectedLog.date), 'MMMM d, yyyy')}</h5>
+              <div className="card-text">
+                <p><strong>Anxiety Level:</strong> {selectedLog.anxiety_level}</p>
+                <p><strong>Panic Attack:</strong> {selectedLog.panic_attack ? 'Yes' : 'No'}</p>
+                {selectedLog.notes && <p><strong>Notes:</strong> {selectedLog.notes}</p>}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
