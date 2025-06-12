@@ -25,8 +25,9 @@ const AwardsSection = () => {
     };
     const awardsData = [
         { id: 1, title: "CS50 Introduction to AI with Python", year: "2024", image: cs50 },
-        { id: 2, title: "Microsoft Certified Solutions Developer", year: "2018", image: mcsd },
-        { id: 3, title: "Microsoft Certified Solutions Associate", year: "2018", image: mcsa }
+        { id: 2, title: "MCSA: Web Applications", year: "2018", image: mcsd },
+        { id: 3, title: "MCSD: App Builder", year: "2018", image: mcsa },
+        { id: 4, title: "Microsoft Certified Professional", year: "2018", image: mcsd },
     ];
 
     return (
