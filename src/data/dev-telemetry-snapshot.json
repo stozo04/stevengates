@@ -1,0 +1,37 @@
+{
+  "capturedAt": "2026-05-19T20:30:00.000Z",
+  "host": "kayley-mainframe.gates.local",
+  "uptimeSeconds": 18234421,
+  "loadAverage": [0.41, 0.38, 0.42],
+  "memoryUsedGb": 9.7,
+  "memoryTotalGb": 32,
+  "services": [
+    { "name": "kayley-heartbeat", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "kayley-voice-engine", "status": "online", "restarts": 1, "uptime": "21d 14h" },
+    { "name": "ring-direct", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "email-channel", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "calendar-poller", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "qmd-nightly-reindex", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "github-release-poll", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "dashboard-api", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "dashboard-ui", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "outbox-depth-check", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "system-alert-ingress", "status": "online", "restarts": 0, "uptime": "21d 14h" },
+    { "name": "ops-agent", "status": "online", "restarts": 0, "uptime": "21d 14h" }
+  ],
+  "logs": [
+    { "ts": "2026-05-19T20:29:48Z", "level": "info", "component": "kayley-heartbeat", "msg": "tick complete · 0 surfaced changes · 0 required nudges" },
+    { "ts": "2026-05-19T20:27:12Z", "level": "info", "component": "ring-direct", "msg": "motion · Front cam · vehicle detected · classified=routine" },
+    { "ts": "2026-05-19T20:24:33Z", "level": "info", "component": "email-channel", "msg": "incoming · auto-archive matched · skipping summary" },
+    { "ts": "2026-05-19T20:18:01Z", "level": "info", "component": "kayley-heartbeat", "msg": "tick complete · 1 surfaced change (calendar event @ T-90m)" },
+    { "ts": "2026-05-19T19:58:44Z", "level": "info", "component": "github-release-poll", "msg": "polled 8 repos · 0 new releases" }
+  ],
+  "todayCounts": {
+    "heartbeatTicks": 72,
+    "telegramMessages": 138,
+    "selfiesGenerated": 4,
+    "voiceNotesSent": 11,
+    "memoryWritesSupabase": 412,
+    "captureMomentsAdded": 1
+  }
+}
