@@ -35,6 +35,7 @@ const fullPage = args.fullPage === "true";
 const waitMs = Number(args.waitMs ?? 1500);
 const waitFor = args.waitFor;
 const press = args.press;
+const click = args.click;
 
 await mkdir(dirname(outPath), { recursive: true });
 
@@ -77,6 +78,11 @@ if (theme === "light") {
 if (press) {
   await page.keyboard.press(press);
   await page.waitForTimeout(400);
+}
+
+if (click) {
+  await page.click(click, { timeout: 5000 });
+  await page.waitForTimeout(500);
 }
 
 await page.waitForTimeout(waitMs);

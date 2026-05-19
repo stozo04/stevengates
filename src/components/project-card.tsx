@@ -81,6 +81,7 @@ function ProjectArt({ project, variant }: { project: Project; variant: "lead" | 
           src={project.image}
           alt={`${project.name} preview`}
           fill
+          priority={variant === "lead"}
           sizes="(min-width: 1024px) 33vw, 100vw"
           className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
         />
