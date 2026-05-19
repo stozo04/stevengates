@@ -3,6 +3,9 @@ import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
+import { CommandPalette } from "@/components/command-palette";
+import { ConsoleBanner } from "@/components/console-banner";
+import { KonamiListener } from "@/components/konami-listener";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -37,11 +40,13 @@ export const metadata: Metadata = {
     title: "Steven Gates — Senior Software Engineer & AI Systems Builder",
     description:
       "Context-aware autonomous AI systems, production cloud platforms, and the occasional Tesla rant.",
+    images: [{ url: "/og/home", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@sgates2011",
     title: "Steven Gates — Senior Software Engineer & AI Systems Builder",
+    images: ["/og/home"],
   },
   icons: { icon: "/favicon.ico" },
 };
@@ -72,6 +77,9 @@ export default function RootLayout({
           <SiteNav />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <CommandPalette />
+          <KonamiListener />
+          <ConsoleBanner />
         </ThemeProvider>
         <Analytics />
       </body>

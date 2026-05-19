@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Headless Chromium screenshot utility for PR-evidence bundle.
+//
 // Usage:
 //   node scripts/screenshot.mjs --url http://localhost:3000 --out screenshots/phase-a-desktop.png
-//   node scripts/screenshot.mjs --url http://localhost:3000 --out screenshots/phase-a-mobile.png --width 390 --height 844
+//   node scripts/screenshot.mjs --url http://localhost:3000 --out screenshots/cmdk.png --press Control+k
 //   node scripts/screenshot.mjs --url http://localhost:3000 --out screenshots/light.png --theme light
 //
 // Origin: spec § 13.c — embed 16 screenshots in the PR description.
@@ -33,6 +34,7 @@ const theme = (args.theme ?? "dark").toLowerCase();
 const fullPage = args.fullPage === "true";
 const waitMs = Number(args.waitMs ?? 1500);
 const waitFor = args.waitFor;
+const press = args.press;
 
 await mkdir(dirname(outPath), { recursive: true });
 
@@ -59,9 +61,7 @@ if (theme === "light") {
     const root = document.documentElement;
     root.classList.remove("dark");
     root.classList.add("light");
-    try {
-      localStorage.setItem("theme", "light");
-    } catch {}
+    try { localStorage.setItem("theme", "light"); } catch {}
   });
   await page.waitForTimeout(300);
 } else {
@@ -69,11 +69,14 @@ if (theme === "light") {
     const root = document.documentElement;
     root.classList.remove("light");
     root.classList.add("dark");
-    try {
-      localStorage.setItem("theme", "dark");
-    } catch {}
+    try { localStorage.setItem("theme", "dark"); } catch {}
   });
   await page.waitForTimeout(300);
+}
+
+if (press) {
+  await page.keyboard.press(press);
+  await page.waitForTimeout(400);
 }
 
 await page.waitForTimeout(waitMs);
@@ -82,4 +85,4 @@ await page.screenshot({ path: outPath, fullPage });
 
 await browser.close();
 
-console.log(`saved ${outPath} (${width}x${height}, ${theme}${fullPage ? ", fullPage" : ""})`);
+console.log(`saved ${outPath} (${width}x${height}, ${theme}${fullPage ? ", fullPage" : ""}${press ? `, press=${press}` : ""})`);
