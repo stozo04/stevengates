@@ -40,4 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# dev logs
+# dev logs / save-page-as artifacts
+.dev-server.log
+public/projects/openclaw_files/
+
+.vercel
