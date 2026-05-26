@@ -17,8 +17,8 @@ export function ProjectCard({ project, variant }: Props) {
     <article
       className={
         isCompact
-          ? "group flex flex-col gap-4 rounded-lg border border-border/60 bg-card/40 p-5 transition-colors hover:border-[color:var(--color-accent-cyan)]/60"
-          : "group flex flex-col gap-5 rounded-lg border border-border/60 bg-card/40 p-5 transition-colors hover:border-[color:var(--color-accent-cyan)]/60 sm:p-6"
+          ? "group relative flex flex-col gap-4 rounded-lg border border-border/60 bg-card/40 p-5 transition-colors hover:border-[color:var(--color-accent-cyan)]/60"
+          : "group relative flex flex-col gap-5 rounded-lg border border-border/60 bg-card/40 p-5 transition-colors hover:border-[color:var(--color-accent-cyan)]/60 sm:p-6"
       }
     >
       <ProjectArt project={project} variant={variant} />
@@ -52,7 +52,8 @@ export function ProjectCard({ project, variant }: Props) {
       <div className="mt-auto flex items-center justify-between gap-3 pt-2">
         <Link
           href={`/projects/${project.slug}`}
-          className="inline-flex items-center gap-1 font-mono text-xs text-[color:var(--color-accent-cyan)] hover:underline underline-offset-4"
+          aria-label={`Read case study: ${project.name}`}
+          className="inline-flex items-center gap-1 font-mono text-xs text-[color:var(--color-accent-cyan)] hover:underline underline-offset-4 after:absolute after:inset-0 after:content-['']"
         >
           read case study <ArrowUpRight className="size-3" />
         </Link>
@@ -61,7 +62,7 @@ export function ProjectCard({ project, variant }: Props) {
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-mono text-xs text-muted-foreground hover:text-foreground"
+            className="relative z-10 inline-flex items-center gap-1 font-mono text-xs text-muted-foreground hover:text-foreground"
           >
             live <ArrowUpRight className="size-3" />
           </Link>

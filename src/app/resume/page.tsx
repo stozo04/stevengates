@@ -85,7 +85,7 @@ export default function ResumePage() {
 
           <Block heading="personal projects">
             <Job
-              title="Kayley_Cowork"
+              title="Kayley Cowork"
               employer="solo · since 2026"
               years=""
               bullets={[
@@ -101,7 +101,7 @@ export default function ResumePage() {
               ]}
             />
             <Job
-              title="MilaGates"
+              title="Mila Gates"
               employer="solo · since 2025"
               years=""
               bullets={[
@@ -109,7 +109,7 @@ export default function ResumePage() {
               ]}
             />
             <Job
-              title="Gatesflix"
+              title="GatesFlix"
               employer="solo · since 2017"
               years=""
               bullets={[
