@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { ContributingStrip } from "@/components/contributing-strip";
 import { GithubStatsStrip } from "@/components/github-stats-strip";
 import { ProjectsStrip } from "@/components/projects-strip";
 import { TerminalHero } from "@/components/terminal-hero";
@@ -71,6 +72,8 @@ export default function Home() {
       </section>
 
       <ProjectsStrip />
+
+      <ContributingStrip />
     </>
   );
 }

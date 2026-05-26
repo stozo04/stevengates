@@ -8,7 +8,7 @@ export const LOAN_TRACKER_SECTIONS = [
       <>
         <p>
           A loan-tracker built with <strong>no input fields</strong>. There&apos;s a
-          microphone button and a transcript. You ask in plain English. The page asks the
+          microphone button and a modal. You ask in plain English. The page asks the
           MCP server, the MCP server hits the database, the answer comes back as text and
           (optionally) speech.
         </p>
@@ -29,7 +29,7 @@ export const LOAN_TRACKER_SECTIONS = [
           button, a route. The user has to learn the contract before they can use the app.
         </p>
         <p>
-          An <strong>agentic</strong> surface inverts that. The contract lives behind the
+          An <strong>agentic</strong> {" "} surface inverts that. The contract lives behind the
           screen — exposed as an MCP server with structured tool definitions. The user
           speaks in their own words; an LLM-mediated router picks the right tool, fills
           the parameters, and the page reacts to the result. The screen is still useful

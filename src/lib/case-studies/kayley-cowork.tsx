@@ -10,7 +10,7 @@ export const KAYLEY_SECTIONS = [
     body: (
       <>
         <p>
-          <strong>Kayley_Cowork</strong> is an autonomous companion agent I built on top of
+          <strong>Kayley Cowork</strong> is an autonomous companion agent I built on top of
           Claude Code. It runs 24/7 on a Windows box in my office. It picks up Telegram
           messages, summarizes daycare emails, surfaces calendar events, processes Ring
           camera motion, and ends every day with a 3am dream-cycle that scores memories

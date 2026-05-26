@@ -32,7 +32,7 @@ export default function DevPage() {
           <span className="text-[color:var(--color-accent-cyan)]">●</span> kayley telemetry
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          You found it. This is a frozen snapshot from my Kayley_Cowork PM2 mainframe —
+          You found it. This is a frozen snapshot from my Kayley Cowork PM2 mainframe —
           faked at build, no live connection. The real dashboard lives behind WireGuard at
           home. Numbers below are representative, not synthetic-random.
         </p>

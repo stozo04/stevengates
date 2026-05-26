@@ -6,7 +6,7 @@ export function SiteFooter() {
     <footer className="border-t border-border/60 py-8 mt-24">
       <div className="mx-auto flex max-w-6xl flex-col-reverse items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
         <p className="font-mono text-xs text-muted-foreground">
-          &copy; {year} Steven Gates &middot; Dallas, TX
+          &copy; {year}{" "}Steven Gates &middot; Dallas, TX
         </p>
         <div className="flex items-center gap-5 font-mono text-xs text-muted-foreground">
           <Link

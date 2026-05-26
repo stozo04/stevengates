@@ -2,31 +2,33 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { ProjectCard } from "@/components/project-card";
-import { FEATURED_PROJECTS } from "@/lib/projects";
+import { CONTRIBUTING_PROJECTS } from "@/lib/contributing";
 
-export function ProjectsStrip() {
-  const lead = FEATURED_PROJECTS.filter((p) => p.tier === "lead");
-  const secondary = FEATURED_PROJECTS.filter((p) => p.tier === "secondary");
+export function ContributingStrip() {
+  const lead = CONTRIBUTING_PROJECTS.filter((p) => p.tier === "lead");
+  const secondary = CONTRIBUTING_PROJECTS.filter((p) => p.tier === "secondary");
 
   return (
     <section
-      aria-labelledby="featured-projects"
+      aria-labelledby="contributing-projects"
       className="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24"
     >
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            featured
+            contributing / open source
           </p>
-          <h2 id="featured-projects" className="mt-2 font-mono text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-            <span className="text-[color:var(--color-accent-cyan)]">&gt;</span>{" "}what i&apos;m shipping
+          <h2 id="contributing-projects" className="mt-2 font-mono text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            <span className="text-[color:var(--color-accent-cyan)]">&gt;</span>{" "}projects i support
           </h2>
         </div>
         <Link
-          href="/projects"
+          href="https://github.com/stozo04?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
           className="hidden md:inline-flex items-center gap-1 font-mono text-xs text-muted-foreground hover:text-foreground"
         >
-          all projects <ArrowRight className="size-3" />
+          all contributions <ArrowRight className="size-3" />
         </Link>
       </div>
 
