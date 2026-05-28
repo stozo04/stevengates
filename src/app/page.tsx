@@ -1,8 +1,9 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 import { ContributingStrip } from "@/components/contributing-strip";
 import { GithubStatsStrip } from "@/components/github-stats-strip";
+import { IssuesStrip } from "@/components/issues-strip";
 import { ProjectsStrip } from "@/components/projects-strip";
 import { TerminalHero } from "@/components/terminal-hero";
 
@@ -13,18 +14,16 @@ export default function Home() {
     <>
       <section className="mx-auto max-w-6xl px-4 sm:px-6 pt-12 sm:pt-20 pb-12">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          steven gates  ·  senior software engineer  ·  dallas, tx
+          steven gates · senior software engineer · dallas, tx
         </p>
         <h1 className="mt-4 max-w-3xl font-mono text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl">
           context-aware autonomous AI systems,{" "}
-          <span className="text-[color:var(--color-accent-cyan)]">
-            production cloud platforms,
-          </span>{" "}
+          <span className="text-[color:var(--color-accent-cyan)]">production cloud platforms,</span>{" "}
           and the occasional Tesla rant.
         </h1>
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          A decade of AWS / Azure / .NET cloud work behind me. Now obsessed with what
-          happens when an LLM gets MCP tools, persistent memory, and a heartbeat.
+          A decade of AWS / Azure / .NET cloud work behind me. Now obsessed with what happens when
+          an LLM gets MCP tools, persistent memory, and a heartbeat.
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
@@ -53,7 +52,8 @@ export default function Home() {
               live / github
             </p>
             <h2 className="mt-2 font-mono text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-              <span className="text-[color:var(--color-accent-cyan)]">&gt;</span> commits, not adjectives
+              <span className="text-[color:var(--color-accent-cyan)]">&gt;</span> commits, not
+              adjectives
             </h2>
           </div>
           <Link
@@ -67,13 +67,15 @@ export default function Home() {
         </div>
         <GithubStatsStrip />
         <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
-          pulled at build  ·  ISR / 1h  ·  source: github graphql v4
+          pulled at build · ISR / 1h · source: github graphql v4
         </p>
       </section>
 
       <ProjectsStrip />
 
       <ContributingStrip />
+
+      <IssuesStrip />
     </>
   );
 }
